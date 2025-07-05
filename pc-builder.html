@@ -1,0 +1,513 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom PC Builder Wizard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .step-indicator div {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #0078d4;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      margin: 0 10px;
+      color: #0078d4;
+      font-weight: 600;
+      box-sizing: border-box;
+    }
+    .step-indicator .current { background-color: #0078d4; color: white; }
+    .step-indicator .completed { background-color: #28a745; color: white; border-color: #28a745; }
+    .step-indicator .upcoming { background-color: transparent; color: #ccc; }
+    form {
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-family: 'Montserrat', sans-serif;
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    select, input, button {
+      font-family: 'Montserrat', sans-serif;
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0078d4;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      border: none;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .hidden { display: none; }
+    .step { margin-bottom: 20px; }
+    #summary ul {
+      font-family: 'Montserrat', sans-serif;
+      list-style-type: none;
+      padding: 0;
+    }
+    #summary li {
+      margin: 5px 0;
+      color: #444;
+    }
+    .confirmation {
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      color: #28a745;
+      font-size: 1.2em;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Custom PC Builder</h1>
+  <div class="step-indicator" id="step-indicator"></div>
+  <form id="pc-builder-form">
+    <!-- Step 1: User Info -->
+    <div class="step" id="step-1">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+      <button type="button" onclick="nextStep(2)">Next</button>
+    </div>
+
+    <!-- Step 2: Component Selection -->
+    <div class="step hidden" id="step-2">
+      <label for="cpu">CPU</label>
+      <select id="cpu" name="cpu" onchange="updateMotherboards()" required>
+        <optgroup label="AMD AM4">
+          <option value="AMD Ryzen 5 4500|240|AM4|DDR4">AMD Ryzen 5 4500 (€240)</option>
+          <option value="AMD Ryzen 5 4600G|250|AM4|DDR4">AMD Ryzen 5 4600G (€250)</option>
+          <option value="AMD Ryzen 5 5500|250|AM4|DDR4">AMD Ryzen 5 5500 (€250)</option>
+          <option value="AMD Ryzen 5 5600|300|AM4|DDR4">AMD Ryzen 5 5600 (€300)</option>
+          <option value="AMD Ryzen 5 5600G|300|AM4|DDR4">AMD Ryzen 5 5600G (€300)</option>
+          <option value="AMD Ryzen 5 5600X|350|AM4|DDR4">AMD Ryzen 5 5600X (€350)</option>
+          <option value="AMD Ryzen 5 5600X3D|400|AM4|DDR4">AMD Ryzen 5 5600X3D (€400)</option>
+          <option value="AMD Ryzen 7 4700G|350|AM4|DDR4">AMD Ryzen 7 4700G (€350)</option>
+          <option value="AMD Ryzen 7 5700|400|AM4|DDR4">AMD Ryzen 7 5700 (€400)</option>
+          <option value="AMD Ryzen 7 5700G|450|AM4|DDR4">AMD Ryzen 7 5700G (€450)</option>
+          <option value="AMD Ryzen 7 5700X|500|AM4|DDR4">AMD Ryzen 7 5700X (€500)</option>
+          <option value="AMD Ryzen 7 5700X3D|550|AM4|DDR4">AMD Ryzen 7 5700X3D (€550)</option>
+          <option value="AMD Ryzen 7 5800|450|AM4|DDR4">AMD Ryzen 7 5800 (€450)</option>
+          <option value="AMD Ryzen 7 5800X|550|AM4|DDR4">AMD Ryzen 7 5800X (€550)</option>
+          <option value="AMD Ryzen 7 5800X3D|600|AM4|DDR4">AMD Ryzen 7 5800X3D (€600)</option>
+          <option value="AMD Ryzen 9 3900XT|600|AM4|DDR4">AMD Ryzen 9 3900XT (€600)</option>
+          <option value="AMD Ryzen 9 5900|650|AM4|DDR4">AMD Ryzen 9 5900 (€650)</option>
+          <option value="AMD Ryzen 9 5900X|700|AM4|DDR4">AMD Ryzen 9 5900X (€700)</option>
+          <option value="AMD Ryzen 9 5950X|800|AM4|DDR4">AMD Ryzen 9 5950X (€800)</option>
+        </optgroup>
+        <optgroup label="AMD AM5">
+          <option value="AMD Ryzen 5 7400F|350|AM5|DDR5">AMD Ryzen 5 7400F (€350)</option>
+          <option value="AMD Ryzen 5 7500F|400|AM5|DDR5">AMD Ryzen 5 7500F (€400)</option>
+          <option value="AMD Ryzen 5 7600|450|AM5|DDR5">AMD Ryzen 5 7600 (€450)</option>
+          <option value="AMD Ryzen 5 7600X|500|AM5|DDR5">AMD Ryzen 5 7600X (€500)</option>
+          <option value="AMD Ryzen 5 7600X3D|550|AM5|DDR5">AMD Ryzen 5 7600X3D (€550)</option>
+          <option value="AMD Ryzen 5 8400F|400|AM5|DDR5">AMD Ryzen 5 8400F (€400)</option>
+          <option value="AMD Ryzen 5 8600G|450|AM5|DDR5">AMD Ryzen 5 8600G (€450)</option>
+          <option value="AMD Ryzen 5 9600X|500|AM5|DDR5">AMD Ryzen 5 9600X (€500)</option>
+          <option value="AMD Ryzen 7 7700|550|AM5|DDR5">AMD Ryzen 7 7700 (€550)</option>
+          <option value="AMD Ryzen 7 7700X|600|AM5|DDR5">AMD Ryzen 7 7700X (€600)</option>
+          <option value="AMD Ryzen 7 7800X3D|650|AM5|DDR5">AMD Ryzen 7 7800X3D (€650)</option>
+          <option value="AMD Ryzen 7 8700F|500|AM5|DDR5">AMD Ryzen 7 8700F (€500)</option>
+          <option value="AMD Ryzen 7 8700G|550|AM5|DDR5">AMD Ryzen 7 8700G (€550)</option>
+          <option value="AMD Ryzen 7 9700X|600|AM5|DDR5">AMD Ryzen 7 9700X (€600)</option>
+          <option value="AMD Ryzen 7 9800X3D|700|AM5|DDR5">AMD Ryzen 7 9800X3D (€700)</option>
+          <option value="AMD Ryzen 9 7900|700|AM5|DDR5">AMD Ryzen 9 7900 (€700)</option>
+          <option value="AMD Ryzen 9 7900X|800|AM5|DDR5">AMD Ryzen 9 7900X (€800)</option>
+          <option value="AMD Ryzen 9 7900X3D|850|AM5|DDR5">AMD Ryzen 9 7900X3D (€850)</option>
+          <option value="AMD Ryzen 9 7950X|900|AM5|DDR5">AMD Ryzen 9 7950X (€900)</option>
+          <option value="AMD Ryzen 9 7950X3D|950|AM5|DDR5">AMD Ryzen 9 7950X3D (€950)</option>
+          <option value="AMD Ryzen 9 9900X|1000|AM5|DDR5">AMD Ryzen 9 9900X (€1000)</option>
+          <option value="AMD Ryzen 9 9900X3D|1050|AM5|DDR5">AMD Ryzen 9 9900X3D (€1050)</option>
+          <option value="AMD Ryzen 9 9950X|1100|AM5|DDR5">AMD Ryzen 9 9950X (€1100)</option>
+          <option value="AMD Ryzen 9 9950X3D|1150|AM5|DDR5">AMD Ryzen 9 9950X3D (€1150)</option>
+        </optgroup>
+        <optgroup label="Intel LGA 1700">
+          <option value="Intel Core i3-12100|200|1700|DDR4">Intel Core i3-12100 (€200)</option>
+          <option value="Intel Core i3-12100F|180|1700|DDR4">Intel Core i3-12100F (€180)</option>
+          <option value="Intel Core i3-12300|220|1700|DDR4">Intel Core i3-12300 (€220)</option>
+          <option value="Intel Core i3-13100|230|1700|DDR4">Intel Core i3-13100 (€230)</option>
+          <option value="Intel Core i3-13100F|210|1700|DDR4">Intel Core i3-13100F (€210)</option>
+          <option value="Intel Core i3-14100|240|1700|DDR4">Intel Core i3-14100 (€240)</option>
+          <option value="Intel Core i3-14100F|220|1700|DDR4">Intel Core i3-14100F (€220)</option>
+          <option value="Intel Core i5-12400|250|1700|DDR4">Intel Core i5-12400 (€250)</option>
+          <option value="Intel Core i5-12400F|230|1700|DDR4">Intel Core i5-12400F (€230)</option>
+          <option value="Intel Core i5-12490F|260|1700|DDR4">Intel Core i5-12490F (€260)</option>
+          <option value="Intel Core i5-12500|270|1700|DDR4">Intel Core i5-12500 (€270)</option>
+          <option value="Intel Core i5-12600|280|1700|DDR4">Intel Core i5-12600 (€280)</option>
+          <option value="Intel Core i5-12600K|350|1700|DDR4">Intel Core i5-12600K (€350)</option>
+          <option value="Intel Core i5-12600KF|330|1700|DDR4">Intel Core i5-12600KF (€330)</option>
+          <option value="Intel Core i5-13400|300|1700|DDR4">Intel Core i5-13400 (€300)</option>
+          <option value="Intel Core i5-13400F|280|1700|DDR4">Intel Core i5-13400F (€280)</option>
+          <option value="Intel Core i5-13490F|310|1700|DDR4">Intel Core i5-13490F (€310)</option>
+          <option value="Intel Core i5-13500|320|1700|DDR4">Intel Core i5-13500 (€320)</option>
+          <option value="Intel Core i5-13600|330|1700|DDR4">Intel Core i5-13600 (€330)</option>
+          <option value="Intel Core i5-13600K|400|1700|DDR4">Intel Core i5-13600K (€400)</option>
+          <option value="Intel Core i5-13600KF|380|1700|DDR4">Intel Core i5-13600KF (€380)</option>
+          <option value="Intel Core i5-14400|340|1700|DDR4">Intel Core i5-14400 (€340)</option>
+          <option value="Intel Core i5-14400F|320|1700|DDR4">Intel Core i5-14400F (€320)</option>
+          <option value="Intel Core i5-14490F|350|1700|DDR4">Intel Core i5-14490F (€350)</option>
+          <option value="Intel Core i5-14500|360|1700|DDR4">Intel Core i5-14500 (€360)</option>
+          <option value="Intel Core i5-14600|370|1700|DDR4">Intel Core i5-14600 (€370)</option>
+          <option value="Intel Core i5-14600K|450|1700|DDR4">Intel Core i5-14600K (€450)</option>
+          <option value="Intel Core i5-14600KF|430|1700|DDR4">Intel Core i5-14600KF (€430)</option>
+          <option value="Intel Core i7-12700|400|1700|DDR4">Intel Core i7-12700 (€400)</option>
+          <option value="Intel Core i7-12700F|380|1700|DDR4">Intel Core i7-12700F (€380)</option>
+          <option value="Intel Core i7-12700K|500|1700|DDR4">Intel Core i7-12700K (€500)</option>
+          <option value="Intel Core i7-12700KF|480|1700|DDR4">Intel Core i7-12700KF (€480)</option>
+          <option value="Intel Core i7-13700|450|1700|DDR4">Intel Core i7-13700 (€450)</option>
+          <option value="Intel Core i7-13700F|430|1700|DDR4">Intel Core i7-13700F (€430)</option>
+          <option value="Intel Core i7-13700K|550|1700|DDR5">Intel Core i7-13700K (€550)</option>
+          <option value="Intel Core i7-13700KF|530|1700|DDR5">Intel Core i7-13700KF (€530)</option>
+          <option value="Intel Core i7-13790F|460|1700|DDR4">Intel Core i7-13790F (€460)</option>
+          <option value="Intel Core i7-14700|500|1700|DDR5">Intel Core i7-14700 (€500)</option>
+          <option value="Intel Core i7-14700F|480|1700|DDR5">Intel Core i7-14700F (€480)</option>
+          <option value="Intel Core i7-14700K|600|1700|DDR5">Intel Core i7-14700K (€600)</option>
+          <option value="Intel Core i7-14700KF|580|1700|DDR5">Intel Core i7-14700KF (€580)</option>
+          <option value="Intel Core i9-12900|500|1700|DDR4">Intel Core i9-12900 (€500)</option>
+          <option value="Intel Core i9-12900F|480|1700|DDR4">Intel Core i9-12900F (€480)</option>
+          <option value="Intel Core i9-12900K|600|1700|DDR4">Intel Core i9-12900K (€600)</option>
+          <option value="Intel Core i9-12900KF|580|1700|DDR4">Intel Core i9-12900KF (€580)</option>
+          <option value="Intel Core i9-13900|550|1700|DDR5">Intel Core i9-13900 (€550)</option>
+          <option value="Intel Core i9-13900K|650|1700|DDR5">Intel Core i9-13900K (€650)</option>
+          <option value="Intel Core i9-13900KF|630|1700|DDR5">Intel Core i9-13900KF (€630)</option>
+        </optgroup>
+      </select>
+
+      <label for="motherboard">Motherboard</label>
+      <select id="motherboard" name="motherboard" required></select>
+
+      <label for="ram">RAM</label>
+      <select id="ram" name="ram" required>
+        <optgroup label="Corsair">
+          <option value="Corsair Vengeance LPX DDR4 8GB|72|DDR4">Corsair Vengeance LPX DDR4 8GB (€72)</option>
+          <option value="Corsair Vengeance LPX DDR4 16GB|96|DDR4">Corsair Vengeance LPX DDR4 16GB (€96)</option>
+          <option value="Corsair Dominator Platinum DDR5 32GB|180|DDR5">Corsair Dominator Platinum DDR5 32GB (€180)</option>
+          <option value="Corsair Vengeance DDR5 64GB|320|DDR5">Corsair Vengeance DDR5 64GB (€320)</option>
+          <option value="Corsair Dominator Titanium DDR5 128GB|640|DDR5">Corsair Dominator Titanium DDR5 128GB (€640)</option>
+        </optgroup>
+        <optgroup label="G.Skill">
+          <option value="G.Skill Ripjaws V DDR4 16GB|84|DDR4">G.Skill Ripjaws V DDR4 16GB (€84)</option>
+          <option value="G.Skill Ripjaws V DDR4 32GB|120|DDR4">G.Skill Ripjaws V DDR4 32GB (€120)</option>
+          <option value="G.Skill Trident Z5 DDR5 64GB|384|DDR5">G.Skill Trident Z5 DDR5 64GB (€384)</option>
+          <option value="G.Skill Trident Z5 RGB DDR5 128GB|768|DDR5">G.Skill Trident Z5 RGB DDR5 128GB (€768)</option>
+        </optgroup>
+      </select>
+
+      <label for="gpu">GPU</label>
+      <select id="gpu" name="gpu" required>
+        <optgroup label="NVIDIA">
+          <option value="NVIDIA GeForce RTX 3050|240|400W">NVIDIA GeForce RTX 3050 (€240)</option>
+          <option value="NVIDIA GeForce RTX 4060|360|550W">NVIDIA GeForce RTX 4060 (€360)</option>
+          <option value="NVIDIA GeForce RTX 4070 Ti|720|650W">NVIDIA GeForce RTX 4070 Ti (€720)</option>
+          <option value="NVIDIA GeForce RTX 4080|1080|750W">NVIDIA GeForce RTX 4080 (€1080)</option>
+          <option value="NVIDIA GeForce RTX 4090|1440|850W">NVIDIA GeForce RTX 4090 (€1440)</option>
+        </optgroup>
+        <optgroup label="AMD">
+          <option value="AMD Radeon RX 6600 XT|420|500W">AMD Radeon RX 6600 XT (€420)</option>
+          <option value="AMD Radeon RX 6700 XT|540|600W">AMD Radeon RX 6700 XT (€540)</option>
+          <option value="AMD Radeon RX 7800 XT|720|650W">AMD Radeon RX 7800 XT (€720)</option>
+          <option value="AMD Radeon RX 7900 XTX|1080|750W">AMD Radeon RX 7900 XTX (€1080)</option>
+          <option value="AMD Radeon RX 7900 XTX|1200|800W">AMD Radeon RX 7900 XTX 24GB (€1200)</option>
+        </optgroup>
+      </select>
+
+      <label for="storage">Storage</label>
+      <select id="storage" name="storage" required>
+        <optgroup label="Samsung">
+          <option value="Samsung 970 EVO Plus 500GB|108|NVMe">Samsung 970 EVO Plus 500GB (€108)</option>
+          <option value="Samsung 970 EVO Plus 1TB|144|NVMe">Samsung 970 EVO Plus 1TB (€144)</option>
+          <option value="Samsung 990 Pro 2TB|288|NVMe">Samsung 990 Pro 2TB (€288)</option>
+          <option value="Samsung 990 Pro 4TB|576|NVMe">Samsung 990 Pro 4TB (€576)</option>
+          <option value="Samsung 990 Pro 8TB|1152|NVMe">Samsung 990 Pro 8TB (€1152)</option>
+        </optgroup>
+        <optgroup label="WD">
+          <option value="WD Blue SN570 500GB|84|NVMe">WD Blue SN570 500GB (€84)</option>
+          <option value="WD Black SN770 1TB|144|NVMe">WD Black SN770 1TB (€144)</option>
+          <option value="WD Black SN850X 2TB|360|NVMe">WD Black SN850X 2TB (€360)</option>
+          <option value="WD Black SN850X 4TB|480|NVMe">WD Black SN850X 4TB (€480)</option>
+          <option value="WD Black SN850X 8TB|960|NVMe">WD Black SN850X 8TB (€960)</option>
+        </optgroup>
+      </select>
+
+      <label for="cooler">Cooler</label>
+      <select id="cooler" name="cooler" required>
+        <optgroup label="Noctua">
+          <option value="Noctua NH-U9S|60|Air">Noctua NH-U9S (€60)</option>
+          <option value="Noctua NH-U12S|84|Air">Noctua NH-U12S (€84)</option>
+          <option value="Noctua NH-D15|120|Air">Noctua NH-D15 (€120)</option>
+          <option value="Noctua NH-D15 Chromax.Black|140|Air">Noctua NH-D15 Chromax.Black (€140)</option>
+          <option value="Noctua NH-U14S TR4-SP3|180|Air">Noctua NH-U14S TR4-SP3 (€180)</option>
+        </optgroup>
+        <optgroup label="Cooler Master">
+          <option value="Cooler Master Hyper 212|60|Air">Cooler Master Hyper 212 (€60)</option>
+          <option value="Cooler Master Hyper 412|80|Air">Cooler Master Hyper 412 (€80)</option>
+          <option value="Cooler Master ML240L|120|Liquid">Cooler Master ML240L (€120)</option>
+          <option value="Cooler Master ML360R|180|Liquid">Cooler Master ML360R (€180)</option>
+          <option value="Cooler Master MasterLiquid PL360 Flux|240|Liquid">Cooler Master MasterLiquid PL360 Flux (€240)</option>
+        </optgroup>
+      </select>
+
+      <label for="case">Case</label>
+      <select id="case" name="case" required>
+        <optgroup label="NZXT">
+          <option value="NZXT H210|72|Mini-Tower">NZXT H210 (€72)</option>
+          <option value="NZXT H510|96|Mid-Tower">NZXT H510 (€96)</option>
+          <option value="NZXT H710|120|Mid-Tower">NZXT H710 (€120)</option>
+          <option value="NZXT H710i|150|Mid-Tower">NZXT H710i (€150)</option>
+          <option value="NZXT H7 Flow|180|Mid-Tower">NZXT H7 Flow (€180)</option>
+        </optgroup>
+        <optgroup label="Fractal Design">
+          <option value="Fractal Design Meshify C Mini|90|Mini-Tower">Fractal Design Meshify C Mini (€90)</option>
+          <option value="Fractal Design Meshify C|108|Mid-Tower">Fractal Design Meshify C (€108)</option>
+          <option value="Fractal Design Define 7|150|Full-Tower">Fractal Design Define 7 (€150)</option>
+          <option value="Fractal Design Meshify 2|180|Full-Tower">Fractal Design Meshify 2 (€180)</option>
+          <option value="Fractal Design Define 7 XL|240|Full-Tower">Fractal Design Define 7 XL (€240)</option>
+        </optgroup>
+      </select>
+
+      <label for="psu">Power Supply</label>
+      <select id="psu" name="psu" required>
+        <optgroup label="Corsair">
+          <option value="Corsair CX550|90|550W">Corsair CX550 (€90)</option>
+          <option value="Corsair RM650x|120|650W">Corsair RM650x (€120)</option>
+          <option value="Corsair RM850x|156|850W">Corsair RM850x (€156)</option>
+          <option value="Corsair HX1000|240|1000W">Corsair HX1000 (€240)</option>
+          <option value="Corsair AX1600i|480|1600W">Corsair AX1600i (€480)</option>
+        </optgroup>
+        <optgroup label="EVGA">
+          <option value="EVGA SuperNOVA 650 GA|108|650W">EVGA SuperNOVA 650 GA (€108)</option>
+          <option value="EVGA SuperNOVA 750 G5|144|750W">EVGA SuperNOVA 750 G5 (€144)</option>
+          <option value="EVGA SuperNOVA 850 P5|204|850W">EVGA SuperNOVA 850 P5 (€204)</option>
+          <option value="EVGA SuperNOVA 1000 P6|264|1000W">EVGA SuperNOVA 1000 P6 (€264)</option>
+          <option value="EVGA SuperNOVA 1300 G+|390|1300W">EVGA SuperNOVA 1300 G+ (€390)</option>
+        </optgroup>
+      </select>
+
+      <button type="button" onclick="nextStep(3)">Review Build</button>
+    </div>
+
+    <!-- Step 3: Review -->
+    <div class="step hidden" id="step-3">
+      <h2>Review Your Build</h2>
+      <div id="summary"></div>
+      <button type="button" onclick="submitBuild()">Send Request</button>
+      <button type="button" onclick="nextStep(2)">Back</button>
+    </div>
+
+    <!-- Step 4: Confirmation -->
+    <div class="step hidden" id="step-4">
+      <div class="confirmation">
+        ✅ Request Sent<br>
+        Thanks for submitting your build. We'll be in touch shortly.
+      </div>
+      <button type="button" onclick="resetForm()">Start New Build</button>
+    </div>
+  </form>
+
+  <script type="text/javascript">
+    (function() {
+      emailjs.init({ publicKey: "8G49TBPh4GdWiEW09" });
+    })();
+
+    const form = document.getElementById("pc-builder-form");
+    const steps = document.querySelectorAll(".step");
+    let entries = {};
+
+    function updateStepIndicator(currentStep) {
+      const indicator = document.getElementById("step-indicator");
+      indicator.innerHTML = "";
+      for (let i = 1; i <= 4; i++) {
+        const div = document.createElement("div");
+        if (i < currentStep) div.className = "completed";
+        else if (i === currentStep) div.className = "current";
+        else div.className = "upcoming";
+        div.textContent = i;
+        indicator.appendChild(div);
+      }
+    }
+
+    function nextStep(step) {
+      steps.forEach((s, i) => s.classList.toggle("hidden", i + 1 !== step));
+      updateStepIndicator(step);
+      if (step === 3) displaySummary();
+    }
+
+    function updateMotherboards() {
+      const cpu = document.getElementById("cpu").value.split("|");
+      const socket = cpu[2];
+      const ramType = cpu[3];
+      const motherboardSelect = document.getElementById("motherboard");
+      motherboardSelect.innerHTML = "";
+
+      const motherboards = [
+        { name: "ASUS Prime B450M-A|120|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "ASUS Prime B550M-A|150|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "ASUS TUF Gaming B550-PLUS|240|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "MSI B450 TOMAHAWK MAX|180|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "MSI B550-A PRO|200|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "Gigabyte B550 AORUS PRO|216|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "ASRock B550M Pro4|160|AM4|DDR4", socket: "AM4", ram: "DDR4" },
+        { name: "ASUS ROG Strix B650E-E|360|AM5|DDR5", socket: "AM5", ram: "DDR5" },
+        { name: "ASUS TUF Gaming B650-PLUS|300|AM5|DDR5", socket: "AM5", ram: "DDR5" },
+        { name: "MSI MPG X670E Carbon|420|AM5|DDR5", socket: "AM5", ram: "DDR5" },
+        { name: "Gigabyte X670 AORUS Elite AX|400|AM5|DDR5", socket: "AM5", ram: "DDR5" },
+        { name: "ASRock X670E Steel Legend|432|AM5|DDR5", socket: "AM5", ram: "DDR5" },
+        { name: "ASUS Prime Z690-P|200|1700|DDR4", socket: "1700", ram: "DDR4" },
+        { name: "ASUS ROG STRIX Z690-E|360|1700|DDR5", socket: "1700", ram: "DDR5" },
+        { name: "MSI MAG B660M MORTAR|180|1700|DDR4", socket: "1700", ram: "DDR4" }
+      ];
+
+      motherboards
+        .filter(m => m.socket === socket && m.ram === ramType)
+        .forEach(m => {
+          const opt = document.createElement("option");
+          opt.value = `${m.name}|${m.price}`;
+          opt.textContent = `${m.name} (€${m.price})`;
+          motherboardSelect.appendChild(opt);
+        });
+    }
+
+    function displaySummary() {
+      const summary = document.getElementById("summary");
+      let total = 50; // Shipping cost
+      let summaryHTML = "<ul>";
+      entries = {};
+
+      ["name", "email", "cpu", "motherboard", "ram", "gpu", "storage", "cooler", "case", "psu"]
+        .forEach(field => {
+          const value = document.getElementById(field).value;
+          if (value) {
+            const [name, price] = value.split("|");
+            entries[field] = name;
+            if (price) total += parseInt(price);
+          }
+        });
+
+      entries["Total Cost (€)"] = total;
+      for (const [key, value] of Object.entries(entries)) {
+        summaryHTML += `<li><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}</li>`;
+      }
+      summaryHTML += "</ul>";
+      summary.innerHTML = summaryHTML;
+    }
+
+    function submitBuild() {
+      const templateParams = { ...entries, email: document.getElementById("email").value };
+
+      console.log("Submitting build...");
+      console.log("Template Params:", templateParams);
+
+      emailjs.send("service_s9zzprs", "template_b289p3h", templateParams)
+        .then(() => {
+          console.log("Customer email sent");
+          // Send copy to owner
+          emailjs.send("service_s9zzprs", "template_b289p3h", {
+            ...templateParams,
+            email: "filipmartin612@gmail.com"
+          })
+            .then(() => {
+              console.log("Owner email sent");
+              nextStep(4); // Move to confirmation step
+            }, (error) => {
+              console.error("Owner email error:", error);
+              alert("❌ Failed to send owner email: " + JSON.stringify(error));
+            });
+        }, (error) => {
+          console.error("Customer email error:", error);
+          alert("❌ Failed to send customer email: " + JSON.stringify(error));
+        });
+    }
+
+    function resetForm() {
+      form.reset();
+      entries = {};
+      document.getElementById("motherboard").innerHTML = "";
+      updateMotherboards();
+      nextStep(1); // Return to Step 1
+    }
+
+    // Initialize step indicator and motherboards
+    updateStepIndicator(1);
+    updateMotherboards();
+  </script>
+</body>
+</html>
