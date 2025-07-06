@@ -49,12 +49,12 @@
     body {
       font-family: 'Montserrat', sans-serif;
       padding: 20px;
-      background-color: #f5f5f5;
+      background-color: #0E1B29;
       margin: 0;
     }
     h1 {
       font-family: 'Montserrat', sans-serif;
-      color: #333;
+      color: #fff;
       text-align: center;
       margin-bottom: 20px;
     }
@@ -154,101 +154,34 @@
       <label for="cpu">CPU</label>
       <select id="cpu" name="cpu" onchange="updateMotherboards()" required>
         <optgroup label="AMD AM4">
-          <option value="AMD Ryzen 5 4500|240|AM4|DDR4">AMD Ryzen 5 4500 (€240)</option>
-          <option value="AMD Ryzen 5 4600G|250|AM4|DDR4">AMD Ryzen 5 4600G (€250)</option>
-          <option value="AMD Ryzen 5 5500|250|AM4|DDR4">AMD Ryzen 5 5500 (€250)</option>
-          <option value="AMD Ryzen 5 5600|300|AM4|DDR4">AMD Ryzen 5 5600 (€300)</option>
-          <option value="AMD Ryzen 5 5600G|300|AM4|DDR4">AMD Ryzen 5 5600G (€300)</option>
-          <option value="AMD Ryzen 5 5600X|350|AM4|DDR4">AMD Ryzen 5 5600X (€350)</option>
-          <option value="AMD Ryzen 5 5600X3D|400|AM4|DDR4">AMD Ryzen 5 5600X3D (€400)</option>
-          <option value="AMD Ryzen 7 4700G|350|AM4|DDR4">AMD Ryzen 7 4700G (€350)</option>
-          <option value="AMD Ryzen 7 5700|400|AM4|DDR4">AMD Ryzen 7 5700 (€400)</option>
-          <option value="AMD Ryzen 7 5700G|450|AM4|DDR4">AMD Ryzen 7 5700G (€450)</option>
-          <option value="AMD Ryzen 7 5700X|500|AM4|DDR4">AMD Ryzen 7 5700X (€500)</option>
-          <option value="AMD Ryzen 7 5700X3D|550|AM4|DDR4">AMD Ryzen 7 5700X3D (€550)</option>
-          <option value="AMD Ryzen 7 5800|450|AM4|DDR4">AMD Ryzen 7 5800 (€450)</option>
-          <option value="AMD Ryzen 7 5800X|550|AM4|DDR4">AMD Ryzen 7 5800X (€550)</option>
-          <option value="AMD Ryzen 7 5800X3D|600|AM4|DDR4">AMD Ryzen 7 5800X3D (€600)</option>
-          <option value="AMD Ryzen 9 3900XT|600|AM4|DDR4">AMD Ryzen 9 3900XT (€600)</option>
-          <option value="AMD Ryzen 9 5900|650|AM4|DDR4">AMD Ryzen 9 5900 (€650)</option>
-          <option value="AMD Ryzen 9 5900X|700|AM4|DDR4">AMD Ryzen 9 5900X (€700)</option>
-          <option value="AMD Ryzen 9 5950X|800|AM4|DDR4">AMD Ryzen 9 5950X (€800)</option>
+          <option value="AMD Ryzen 5 5600|180|AM4|DDR4">AMD Ryzen 5 5600 (€180)</option>
+          <option value="AMD Ryzen 5 5600X|240|AM4|DDR4">AMD Ryzen 5 5600X (€240)</option>
+          <option value="AMD Ryzen 5 5600X3D|310|AM4|DDR4">AMD Ryzen 5 5600X3D (€310)</option>
+          <option value="AMD Ryzen 7 5700X|300|AM4|DDR4">AMD Ryzen 7 5700X (€300)</option>
+          <option value="AMD Ryzen 7 5700X3D|385|AM4|DDR4">AMD Ryzen 7 5700X3D (€385)</option>
+          <option value="AMD Ryzen 7 5800X|310|AM4|DDR4">AMD Ryzen 7 5800X (€310)</option>
+          <option value="AMD Ryzen 7 5800X3D|420|AM4|DDR4">AMD Ryzen 7 5800X3D (€420)</option>
+          <option value="AMD Ryzen 9 5900X|420|AM4|DDR4">AMD Ryzen 9 5900X (€420)</option>
+          <option value="AMD Ryzen 9 5950X|590|AM4|DDR4">AMD Ryzen 9 5950X (€590)</option>
         </optgroup>
         <optgroup label="AMD AM5">
-          <option value="AMD Ryzen 5 7400F|350|AM5|DDR5">AMD Ryzen 5 7400F (€350)</option>
-          <option value="AMD Ryzen 5 7500F|400|AM5|DDR5">AMD Ryzen 5 7500F (€400)</option>
-          <option value="AMD Ryzen 5 7600|450|AM5|DDR5">AMD Ryzen 5 7600 (€450)</option>
-          <option value="AMD Ryzen 5 7600X|500|AM5|DDR5">AMD Ryzen 5 7600X (€500)</option>
-          <option value="AMD Ryzen 5 7600X3D|550|AM5|DDR5">AMD Ryzen 5 7600X3D (€550)</option>
-          <option value="AMD Ryzen 5 8400F|400|AM5|DDR5">AMD Ryzen 5 8400F (€400)</option>
-          <option value="AMD Ryzen 5 8600G|450|AM5|DDR5">AMD Ryzen 5 8600G (€450)</option>
-          <option value="AMD Ryzen 5 9600X|500|AM5|DDR5">AMD Ryzen 5 9600X (€500)</option>
-          <option value="AMD Ryzen 7 7700|550|AM5|DDR5">AMD Ryzen 7 7700 (€550)</option>
-          <option value="AMD Ryzen 7 7700X|600|AM5|DDR5">AMD Ryzen 7 7700X (€600)</option>
-          <option value="AMD Ryzen 7 7800X3D|650|AM5|DDR5">AMD Ryzen 7 7800X3D (€650)</option>
-          <option value="AMD Ryzen 7 8700F|500|AM5|DDR5">AMD Ryzen 7 8700F (€500)</option>
-          <option value="AMD Ryzen 7 8700G|550|AM5|DDR5">AMD Ryzen 7 8700G (€550)</option>
-          <option value="AMD Ryzen 7 9700X|600|AM5|DDR5">AMD Ryzen 7 9700X (€600)</option>
-          <option value="AMD Ryzen 7 9800X3D|700|AM5|DDR5">AMD Ryzen 7 9800X3D (€700)</option>
-          <option value="AMD Ryzen 9 7900|700|AM5|DDR5">AMD Ryzen 9 7900 (€700)</option>
-          <option value="AMD Ryzen 9 7900X|800|AM5|DDR5">AMD Ryzen 9 7900X (€800)</option>
-          <option value="AMD Ryzen 9 7900X3D|850|AM5|DDR5">AMD Ryzen 9 7900X3D (€850)</option>
-          <option value="AMD Ryzen 9 7950X|900|AM5|DDR5">AMD Ryzen 9 7950X (€900)</option>
-          <option value="AMD Ryzen 9 7950X3D|950|AM5|DDR5">AMD Ryzen 9 7950X3D (€950)</option>
-          <option value="AMD Ryzen 9 9900X|1000|AM5|DDR5">AMD Ryzen 9 9900X (€1000)</option>
-          <option value="AMD Ryzen 9 9900X3D|1050|AM5|DDR5">AMD Ryzen 9 9900X3D (€1050)</option>
-          <option value="AMD Ryzen 9 9950X|1100|AM5|DDR5">AMD Ryzen 9 9950X (€1100)</option>
-          <option value="AMD Ryzen 9 9950X3D|1150|AM5|DDR5">AMD Ryzen 9 9950X3D (€1150)</option>
+          <option value="AMD Ryzen 5 7600|250|AM5|DDR5">AMD Ryzen 5 7600 (€250)</option>
+          <option value="AMD Ryzen 5 7600X|310|AM5|DDR5">AMD Ryzen 5 7600X (€310)</option>
+          <option value="AMD Ryzen 7 7700|370|AM5|DDR5">AMD Ryzen 7 7700 (€370)</option>
+          <option value="AMD Ryzen 7 7700X|430|AM5|DDR5">AMD Ryzen 7 7700X (€430)</option>
+          <option value="AMD Ryzen 7 7800X3D|480|AM5|DDR5">AMD Ryzen 7 7800X3D (€480)</option>
+          <option value="AMD Ryzen 9 7900X|550|AM5|DDR5">AMD Ryzen 9 7900X (€550)</option>
+          <option value="AMD Ryzen 9 7900X3D|645|AM5|DDR5">AMD Ryzen 9 7900X3D (€645)</option>
+          <option value="AMD Ryzen 9 7950X|695|AM5|DDR5">AMD Ryzen 9 7950X (€695)</option>
+          <option value="AMD Ryzen 9 7950X3D|780|AM5|DDR5">AMD Ryzen 9 7950X3D (€780)</option>
         </optgroup>
         <optgroup label="Intel LGA 1700">
-          <option value="Intel Core i3-12100|200|1700|DDR4">Intel Core i3-12100 (€200)</option>
-          <option value="Intel Core i3-12100F|180|1700|DDR4">Intel Core i3-12100F (€180)</option>
-          <option value="Intel Core i3-12300|220|1700|DDR4">Intel Core i3-12300 (€220)</option>
-          <option value="Intel Core i3-13100|230|1700|DDR4">Intel Core i3-13100 (€230)</option>
-          <option value="Intel Core i3-13100F|210|1700|DDR4">Intel Core i3-13100F (€210)</option>
-          <option value="Intel Core i3-14100|240|1700|DDR4">Intel Core i3-14100 (€240)</option>
-          <option value="Intel Core i3-14100F|220|1700|DDR4">Intel Core i3-14100F (€220)</option>
-          <option value="Intel Core i5-12400|250|1700|DDR4">Intel Core i5-12400 (€250)</option>
-          <option value="Intel Core i5-12400F|230|1700|DDR4">Intel Core i5-12400F (€230)</option>
-          <option value="Intel Core i5-12490F|260|1700|DDR4">Intel Core i5-12490F (€260)</option>
-          <option value="Intel Core i5-12500|270|1700|DDR4">Intel Core i5-12500 (€270)</option>
-          <option value="Intel Core i5-12600|280|1700|DDR4">Intel Core i5-12600 (€280)</option>
-          <option value="Intel Core i5-12600K|350|1700|DDR4">Intel Core i5-12600K (€350)</option>
-          <option value="Intel Core i5-12600KF|330|1700|DDR4">Intel Core i5-12600KF (€330)</option>
-          <option value="Intel Core i5-13400|300|1700|DDR4">Intel Core i5-13400 (€300)</option>
-          <option value="Intel Core i5-13400F|280|1700|DDR4">Intel Core i5-13400F (€280)</option>
-          <option value="Intel Core i5-13490F|310|1700|DDR4">Intel Core i5-13490F (€310)</option>
-          <option value="Intel Core i5-13500|320|1700|DDR4">Intel Core i5-13500 (€320)</option>
-          <option value="Intel Core i5-13600|330|1700|DDR4">Intel Core i5-13600 (€330)</option>
-          <option value="Intel Core i5-13600K|400|1700|DDR4">Intel Core i5-13600K (€400)</option>
-          <option value="Intel Core i5-13600KF|380|1700|DDR4">Intel Core i5-13600KF (€380)</option>
-          <option value="Intel Core i5-14400|340|1700|DDR4">Intel Core i5-14400 (€340)</option>
-          <option value="Intel Core i5-14400F|320|1700|DDR4">Intel Core i5-14400F (€320)</option>
-          <option value="Intel Core i5-14490F|350|1700|DDR4">Intel Core i5-14490F (€350)</option>
-          <option value="Intel Core i5-14500|360|1700|DDR4">Intel Core i5-14500 (€360)</option>
-          <option value="Intel Core i5-14600|370|1700|DDR4">Intel Core i5-14600 (€370)</option>
-          <option value="Intel Core i5-14600K|450|1700|DDR4">Intel Core i5-14600K (€450)</option>
-          <option value="Intel Core i5-14600KF|430|1700|DDR4">Intel Core i5-14600KF (€430)</option>
-          <option value="Intel Core i7-12700|400|1700|DDR4">Intel Core i7-12700 (€400)</option>
-          <option value="Intel Core i7-12700F|380|1700|DDR4">Intel Core i7-12700F (€380)</option>
-          <option value="Intel Core i7-12700K|500|1700|DDR4">Intel Core i7-12700K (€500)</option>
-          <option value="Intel Core i7-12700KF|480|1700|DDR4">Intel Core i7-12700KF (€480)</option>
-          <option value="Intel Core i7-13700|450|1700|DDR4">Intel Core i7-13700 (€450)</option>
-          <option value="Intel Core i7-13700F|430|1700|DDR4">Intel Core i7-13700F (€430)</option>
-          <option value="Intel Core i7-13700K|550|1700|DDR5">Intel Core i7-13700K (€550)</option>
-          <option value="Intel Core i7-13700KF|530|1700|DDR5">Intel Core i7-13700KF (€530)</option>
-          <option value="Intel Core i7-13790F|460|1700|DDR4">Intel Core i7-13790F (€460)</option>
-          <option value="Intel Core i7-14700|500|1700|DDR5">Intel Core i7-14700 (€500)</option>
-          <option value="Intel Core i7-14700F|480|1700|DDR5">Intel Core i7-14700F (€480)</option>
-          <option value="Intel Core i7-14700K|600|1700|DDR5">Intel Core i7-14700K (€600)</option>
-          <option value="Intel Core i7-14700KF|580|1700|DDR5">Intel Core i7-14700KF (€580)</option>
-          <option value="Intel Core i9-12900|500|1700|DDR4">Intel Core i9-12900 (€500)</option>
-          <option value="Intel Core i9-12900F|480|1700|DDR4">Intel Core i9-12900F (€480)</option>
-          <option value="Intel Core i9-12900K|600|1700|DDR4">Intel Core i9-12900K (€600)</option>
-          <option value="Intel Core i9-12900KF|580|1700|DDR4">Intel Core i9-12900KF (€580)</option>
-          <option value="Intel Core i9-13900|550|1700|DDR5">Intel Core i9-13900 (€550)</option>
-          <option value="Intel Core i9-13900K|650|1700|DDR5">Intel Core i9-13900K (€650)</option>
-          <option value="Intel Core i9-13900KF|630|1700|DDR5">Intel Core i9-13900KF (€630)</option>
+          <option value="Intel Core i5-12400F|155|1700|DDR4">Intel Core i5-12400F (€155)</option>
+          <option value="Intel Core i5-13400F|205|1700|DDR4">Intel Core i5-13400F (€205)</option>
+          <option value="Intel Core i5-14400F|215|1700|DDR4">Intel Core i5-14400F (€215)</option>
+          <option value="Intel Core i7-13700F|395|1700|DDR4">Intel Core i7-13700F (€395)</option>
+          <option value="Intel Core i7-14700F|430|1700|DDR5">Intel Core i7-14700F (€430)</option>
+          <option value="Intel Core i9-13900K|635|1700|DDR5">Intel Core i9-13900K (€635)</option>
         </optgroup>
       </select>
 
@@ -275,18 +208,48 @@
       <label for="gpu">GPU</label>
       <select id="gpu" name="gpu" required>
         <optgroup label="NVIDIA">
-          <option value="NVIDIA GeForce RTX 3050|240|400W">NVIDIA GeForce RTX 3050 (€240)</option>
-          <option value="NVIDIA GeForce RTX 4060|360|550W">NVIDIA GeForce RTX 4060 (€360)</option>
-          <option value="NVIDIA GeForce RTX 4070 Ti|720|650W">NVIDIA GeForce RTX 4070 Ti (€720)</option>
-          <option value="NVIDIA GeForce RTX 4080|1080|750W">NVIDIA GeForce RTX 4080 (€1080)</option>
-          <option value="NVIDIA GeForce RTX 4090|1440|850W">NVIDIA GeForce RTX 4090 (€1440)</option>
+          <option value="NVIDIA GeForce RTX 3060|313|400W">NVIDIA GeForce RTX 3060 (€313)</option>
+          <option value="NVIDIA GeForce RTX 3060 Ti|379|550W">NVIDIA GeForce RTX 3060 Ti (€379)</option>
+          <option value="NVIDIA GeForce RTX 3070|474|650W">NVIDIA GeForce RTX 3070 (€474)</option>
+          <option value="NVIDIA GeForce RTX 3070 Ti|569|650W">NVIDIA GeForce RTX 3070 Ti (€569)</option>
+          <option value="NVIDIA GeForce RTX 3080|664|750W">NVIDIA GeForce RTX 3080 (€664)</option>
+          <option value="NVIDIA GeForce RTX 3080 Ti|1139|750W">NVIDIA GeForce RTX 3080 Ti (€1139)</option>
+          <option value="NVIDIA GeForce RTX 3090|1424|850W">NVIDIA GeForce RTX 3090 (€1424)</option>
+          <option value="NVIDIA GeForce RTX 4060|284|550W">NVIDIA GeForce RTX 4060 (€284)</option>
+          <option value="NVIDIA GeForce RTX 4060 Ti|379|550W">NVIDIA GeForce RTX 4060 Ti (€379)</option>
+          <option value="NVIDIA GeForce RTX 4060 Ti 16GB|474|550W">NVIDIA GeForce RTX 4060 Ti 16GB (€474)</option>
+          <option value="NVIDIA GeForce RTX 4070|569|650W">NVIDIA GeForce RTX 4070 (€569)</option>
+          <option value="NVIDIA GeForce RTX 4070 Ti|759|650W">NVIDIA GeForce RTX 4070 Ti (€759)</option>
+          <option value="NVIDIA GeForce RTX 4070 Ti Super|759|650W">NVIDIA GeForce RTX 4070 Ti Super (€759)</option>
+          <option value="NVIDIA GeForce RTX 4080|1139|750W">NVIDIA GeForce RTX 4080 (€1139)</option>
+          <option value="NVIDIA GeForce RTX 4080 Super|949|750W">NVIDIA GeForce RTX 4080 Super (€949)</option>
+          <option value="NVIDIA GeForce RTX 4090|1519|850W">NVIDIA GeForce RTX 4090 (€1519)</option>
+          <option value="NVIDIA GeForce RTX 5030|170|400W">NVIDIA GeForce RTX 5030 (€170)</option>
+          <option value="NVIDIA GeForce RTX 5060|265|550W">NVIDIA GeForce RTX 5060 (€265)</option>
+          <option value="NVIDIA GeForce RTX 5060 Ti|379|550W">NVIDIA GeForce RTX 5060 Ti (€379)</option>
+          <option value="NVIDIA GeForce RTX 5060 Super|331|550W">NVIDIA GeForce RTX 5060 Super (€331)</option>
+          <option value="NVIDIA GeForce RTX 5070|522|650W">NVIDIA GeForce RTX 5070 (€522)</option>
+          <option value="NVIDIA GeForce RTX 5070 Ti|711|650W">NVIDIA GeForce RTX 5070 Ti (€711)</option>
+          <option value="NVIDIA GeForce RTX 5070 Super|569|650W">NVIDIA GeForce RTX 5070 Super (€569)</option>
+          <option value="NVIDIA GeForce RTX 5070 Ti Super|806|650W">NVIDIA GeForce RTX 5070 Ti Super (€806)</option>
+          <option value="NVIDIA GeForce RTX 5080|949|750W">NVIDIA GeForce RTX 5080 (€949)</option>
+          <option value="NVIDIA GeForce RTX 5080 Super|1091|750W">NVIDIA GeForce RTX 5080 Super (€1091)</option>
+          <option value="NVIDIA GeForce RTX 5090|1899|850W">NVIDIA GeForce RTX 5090 (€1899)</option>
+          <option value="NVIDIA GeForce RTX 5090D|1994|850W">NVIDIA GeForce RTX 5090D (€1994)</option>
         </optgroup>
         <optgroup label="AMD">
-          <option value="AMD Radeon RX 6600 XT|420|500W">AMD Radeon RX 6600 XT (€420)</option>
-          <option value="AMD Radeon RX 6700 XT|540|600W">AMD Radeon RX 6700 XT (€540)</option>
-          <option value="AMD Radeon RX 7800 XT|720|650W">AMD Radeon RX 7800 XT (€720)</option>
-          <option value="AMD Radeon RX 7900 XTX|1080|750W">AMD Radeon RX 7900 XTX (€1080)</option>
-          <option value="AMD Radeon RX 7900 XTX|1200|800W">AMD Radeon RX 7900 XTX 24GB (€1200)</option>
+          <option value="AMD Radeon RX 6600|237|500W">AMD Radeon RX 6600 (€237)</option>
+          <option value="AMD Radeon RX 6600 XT|360|500W">AMD Radeon RX 6600 XT (€360)</option>
+          <option value="AMD Radeon RX 6700 XT|455|600W">AMD Radeon RX 6700 XT (€455)</option>
+          <option value="AMD Radeon RX 6750 XT|522|600W">AMD Radeon RX 6750 XT (€522)</option>
+          <option value="AMD Radeon RX 7600|256|550W">AMD Radeon RX 7600 (€256)</option>
+          <option value="AMD Radeon RX 7600 XT|313|550W">AMD Radeon RX 7600 XT (€313)</option>
+          <option value="AMD Radeon RX 7700 XT|427|650W">AMD Radeon RX 7700 XT (€427)</option>
+          <option value="AMD Radeon RX 7800 XT|522|650W">AMD Radeon RX 7800 XT (€522)</option>
+          <option value="AMD Radeon RX 7900 XT|854|750W">AMD Radeon RX 7900 XT (€854)</option>
+          <option value="AMD Radeon RX 7900 XTX|949|750W">AMD Radeon RX 7900 XTX (€949)</option>
+          <option value="AMD Radeon RX 9070|522|650W">AMD Radeon RX 9070 (€522)</option>
+          <option value="AMD Radeon RX 9070 XT|569|650W">AMD Radeon RX 9070 XT (€569)</option>
         </optgroup>
       </select>
 
@@ -311,18 +274,87 @@
       <label for="cooler">Cooler</label>
       <select id="cooler" name="cooler" required>
         <optgroup label="Noctua">
-          <option value="Noctua NH-U9S|60|Air">Noctua NH-U9S (€60)</option>
-          <option value="Noctua NH-U12S|84|Air">Noctua NH-U12S (€84)</option>
-          <option value="Noctua NH-D15|120|Air">Noctua NH-D15 (€120)</option>
-          <option value="Noctua NH-D15 Chromax.Black|140|Air">Noctua NH-D15 Chromax.Black (€140)</option>
-          <option value="Noctua NH-U14S TR4-SP3|180|Air">Noctua NH-U14S TR4-SP3 (€180)</option>
+          <option value="Noctua NH-U12S|40|Air">Noctua NH-U12S (€40)</option>
+          <option value="Noctua NH-D15|60|Air">Noctua NH-D15 (€60)</option>
+          <option value="Noctua NH-U9S|35|Air">Noctua NH-U9S (€35)</option>
+          <option value="Noctua NH-L9i|30|Air">Noctua NH-L9i (€30)</option>
+          <option value="Noctua NH-U14S|50|Air">Noctua NH-U14S (€50)</option>
+          <option value="Noctua NH-D15 Chromax.Black|80|Air">Noctua NH-D15 Chromax.Black (€80)</option>
+          <option value="Noctua NH-U12A|90|Air">Noctua NH-U12A (€90)</option>
+          <option value="Noctua NH-U12S Redux|45|Air">Noctua NH-U12S Redux (€45)</option>
+          <option value="Noctua NH-L9x65|40|Air">Noctua NH-L9x65 (€40)</option>
+          <option value="Noctua NH-D9L|50|Air">Noctua NH-D9L (€50)</option>
+          <option value="Noctua NH-U12S TR4-SP3|70|Air">Noctua NH-U12S TR4-SP3 (€70)</option>
         </optgroup>
         <optgroup label="Cooler Master">
-          <option value="Cooler Master Hyper 212|60|Air">Cooler Master Hyper 212 (€60)</option>
-          <option value="Cooler Master Hyper 412|80|Air">Cooler Master Hyper 412 (€80)</option>
-          <option value="Cooler Master ML240L|120|Liquid">Cooler Master ML240L (€120)</option>
-          <option value="Cooler Master ML360R|180|Liquid">Cooler Master ML360R (€180)</option>
-          <option value="Cooler Master MasterLiquid PL360 Flux|240|Liquid">Cooler Master MasterLiquid PL360 Flux (€240)</option>
+          <option value="Cooler Master Hyper 212|30|Air">Cooler Master Hyper 212 (€30)</option>
+          <option value="Cooler Master ML240L|50|Liquid">Cooler Master ML240L (AIO) (€50)</option>
+          <option value="Cooler Master Hyper 412|40|Air">Cooler Master Hyper 412 (€40)</option>
+          <option value="Cooler Master ML120L|45|Liquid">Cooler Master ML120L (AIO) (€45)</option>
+          <option value="Cooler Master Hyper 622|55|Air">Cooler Master Hyper 622 (€55)</option>
+          <option value="Cooler Master MasterLiquid PL360 Flux|120|Liquid">Cooler Master MasterLiquid PL360 Flux (AIO) (€120)</option>
+          <option value="Cooler Master MasterAir MA620P|150|Air">Cooler Master MasterAir MA620P (€150)</option>
+          <option value="Cooler Master Hyper 214|35|Air">Cooler Master Hyper 214 (€35)</option>
+          <option value="Cooler Master MasterLiquid ML240L V2|60|Liquid">Cooler Master MasterLiquid ML240L V2 (AIO) (€60)</option>
+          <option value="Cooler Master MasterAir MA410M|80|Air">Cooler Master MasterAir MA410M (€80)</option>
+          <option value="Cooler Master MasterLiquid ML360R|100|Liquid">Cooler Master MasterLiquid ML360R (AIO) (€100)</option>
+          <option value="Cooler Master Hyper 612|65|Air">Cooler Master Hyper 612 (€65)</option>
+        </optgroup>
+        <optgroup label="be quiet!">
+          <option value="be quiet! Pure Rock 2|35|Air">be quiet! Pure Rock 2 (€35)</option>
+          <option value="be quiet! Pure Rock Slim|25|Air">be quiet! Pure Rock Slim (€25)</option>
+          <option value="be quiet! Silent Loop 2 120mm|60|Liquid">be quiet! Silent Loop 2 120mm (AIO) (€60)</option>
+          <option value="be quiet! Dark Rock 4|50|Air">be quiet! Dark Rock 4 (€50)</option>
+          <option value="be quiet! Pure Rock 2 FX|40|Air">be quiet! Pure Rock 2 FX (€40)</option>
+          <option value="be quiet! Silent Loop 2 240mm|100|Liquid">be quiet! Silent Loop 2 240mm (AIO) (€100)</option>
+          <option value="be quiet! Dark Rock Pro 4|130|Air">be quiet! Dark Rock Pro 4 (€130)</option>
+          <option value="be quiet! Pure Rock 2 Black|38|Air">be quiet! Pure Rock 2 Black (€38)</option>
+          <option value="be quiet! Silent Loop 2 280mm|110|Liquid">be quiet! Silent Loop 2 280mm (AIO) (€110)</option>
+          <option value="be quiet! Dark Rock Slim|45|Air">be quiet! Dark Rock Slim (€45)</option>
+          <option value="be quiet! Pure Rock 2 White|40|Air">be quiet! Pure Rock 2 White (€40)</option>
+          <option value="be quiet! Silent Loop 2 360mm|140|Liquid">be quiet! Silent Loop 2 360mm (AIO) (€140)</option>
+        </optgroup>
+        <optgroup label="Deepcool">
+          <option value="Deepcool AK400|45|Air">Deepcool AK400 (€45)</option>
+          <option value="Deepcool AK620|65|Air">Deepcool AK620 (€65)</option>
+          <option value="Deepcool LS520|70|Liquid">Deepcool LS520 (AIO) (€70)</option>
+          <option value="Deepcool Gammaxx 400|35|Air">Deepcool Gammaxx 400 (€35)</option>
+          <option value="Deepcool AS500 Plus|55|Air">Deepcool AS500 Plus (€55)</option>
+          <option value="Deepcool LS720|140|Liquid">Deepcool LS720 (AIO) (€140)</option>
+          <option value="Deepcool Castle 360EX|180|Liquid">Deepcool Castle 360EX (AIO) (€180)</option>
+          <option value="Deepcool AK400 Plus|50|Air">Deepcool AK400 Plus (€50)</option>
+          <option value="Deepcool Gammaxx 400 XT|40|Air">Deepcool Gammaxx 400 XT (€40)</option>
+          <option value="Deepcool LS360|90|Liquid">Deepcool LS360 (AIO) (€90)</option>
+          <option value="Deepcool AK500|60|Air">Deepcool AK500 (€60)</option>
+          <option value="Deepcool Castle 240RGB V2|100|Liquid">Deepcool Castle 240RGB V2 (AIO) (€100)</option>
+        </optgroup>
+        <optgroup label="Arctic">
+          <option value="Arctic Freezer 34 eSports DUO|40|Air">Arctic Freezer 34 eSports DUO (€40)</option>
+          <option value="Arctic Freezer 7 X|25|Air">Arctic Freezer 7 X (€25)</option>
+          <option value="Arctic Liquid Freezer II 240|80|Liquid">Arctic Liquid Freezer II 240 (AIO) (€80)</option>
+          <option value="Arctic Freezer 36|45|Air">Arctic Freezer 36 (€45)</option>
+          <option value="Arctic Freezer 50|60|Air">Arctic Freezer 50 (€60)</option>
+          <option value="Arctic Liquid Freezer II 360|120|Liquid">Arctic Liquid Freezer II 360 (AIO) (€120)</option>
+          <option value="Arctic Freezer 34 eSports|70|Air">Arctic Freezer 34 eSports (€70)</option>
+          <option value="Arctic Freezer 7 Pro|30|Air">Arctic Freezer 7 Pro (€30)</option>
+          <option value="Arctic Liquid Freezer II 280|100|Liquid">Arctic Liquid Freezer II 280 (AIO) (€100)</option>
+          <option value="Arctic Freezer 33 eSports|50|Air">Arctic Freezer 33 eSports (€50)</option>
+          <option value="Arctic Liquid Freezer III 240|90|Liquid">Arctic Liquid Freezer III 240 (AIO) (€90)</option>
+          <option value="Arctic Freezer 50 Pro|65|Air">Arctic Freezer 50 Pro (€65)</option>
+        </optgroup>
+        <optgroup label="Corsair">
+          <option value="Corsair H60|50|Liquid">Corsair H60 (AIO) (€50)</option>
+          <option value="Corsair H100i|70|Liquid">Corsair H100i (AIO) (€70)</option>
+          <option value="Corsair Air Series AF120 LED|30|Air">Corsair Air Series AF120 LED (€30)</option>
+          <option value="Corsair H115i Elite Capellix|160|Liquid">Corsair H115i Elite Capellix (AIO) (€160)</option>
+          <option value="Corsair H150i Elite Capellix|200|Liquid">Corsair H150i Elite Capellix (AIO) (€200)</option>
+          <option value="Corsair H80i|60|Liquid">Corsair H80i (AIO) (€60)</option>
+          <option value="Corsair H100i RGB Platinum|120|Liquid">Corsair H100i RGB Platinum (AIO) (€120)</option>
+          <option value="Corsair Air Series SP120|35|Air">Corsair Air Series SP120 (€35)</option>
+          <option value="Corsair H115i Pro|140|Liquid">Corsair H115i Pro (AIO) (€140)</option>
+          <option value="Corsair H60i|55|Liquid">Corsair H60i (AIO) (€55)</option>
+          <option value="Corsair H140|80|Air">Corsair H140 (€80)</option>
+          <option value="Corsair H150i Pro|180|Liquid">Corsair H150i Pro (AIO) (€180)</option>
         </optgroup>
       </select>
 
