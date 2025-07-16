@@ -746,10 +746,313 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
 
       // Storage Options
       const storageOptions = [
-        { brand: "Samsung", name: "Samsung 970 EVO Plus 1TB", price: "144", type: "NVMe" },
-        { brand: "Samsung", name: "Samsung 990 Pro 2TB", price: "288", type: "NVMe" },
-        { brand: "WD", name: "WD Black SN770 1TB", price: "144", type: "NVMe" },
-        { brand: "WD", name: "WD Black SN850X 4TB", price: "480", type: "NVMe" }
+        { brand: "ADATA", name: "LEGEND 840 512GB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "512GB" },
+        { brand: "ADATA", name: "LEGEND 840 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "ADATA", name: "LEGEND 860 1TB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "1TB" },
+        { brand: "ADATA", name: "LEGEND 860 2TB [M.2 PCIe 4.0 x4]", price: "150", Capacity: "2TB" },
+        { brand: "ADATA", name: "LEGEND 900 512GB [M.2 PCIe 4.0 x4]", price: "50", Capacity: "512GB" },
+        { brand: "ADATA", name: "LEGEND 900 1TB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "1TB" },
+        { brand: "ADATA", name: "LEGEND 900 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "ADATA", name: "Legend 960 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "ADATA", name: "Legend 960 2TB [M.2 PCIe 4.0 x4]", price: "215", Capacity: "2TB" },
+        { brand: "ADATA", name: "LEGEND 960 MAX 1TB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "1TB" },
+        { brand: "ADATA", name: "LEGEND 960 MAX 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "ADATA", name: "LEGEND 960 MAX 4TB [M.2 PCIe 4.0 x4]", price: "425", Capacity: "4TB" },
+        { brand: "ADATA", name: "LEGEND 970 1TB [M.2 PCIe 5.0 x4]", price: "250", Capacity: "1TB" },
+        { brand: "ADATA", name: "LEGEND 970 2TB [M.2 PCIe 5.0 x4]", price: "435", Capacity: "2TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S50 Lite 2TB [M.2 PCIe 4.0 x4]", price: "405", Capacity: "2TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S60 Blade 1TB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "1TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 Blade 512GB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "512GB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 Blade 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 Blade 2TB [M.2 PCIe 4.0 x4]", price: "195", Capacity: "2TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 Blade 4TB [M.2 PCIe 4.0 x4]", price: "395", Capacity: "4TB" },
+        { brand: "ADATA", name: "XPG GAMMIX S70 Blade 8TB [M.2 PCIe 4.0 x4]", price: "700", Capacity: "8TB" },
+        { brand: "ADATA", name: "XPG MARS 980 STORM 2TB [M.2 PCIe 5.0 x4]", price: "340", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 500GB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "500GB" },
+        { brand: "Corsair", name: "MP600 1TB [M.2 PCIe 4.0 x4]", price: "175", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 CORE 1TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 CORE XT 1TB [M.2 PCIe 4.0 x4]", price: "110", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 CORE XT 2TB [M.2 PCIe 4.0 x4]", price: "200", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 CORE XT 4TB [M.2 PCIe 4.0 x4]", price: "365", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 CORE XT R2 1TB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 CORE XT R2 2TB [M.2 PCIe 4.0 x4]", price: "180", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 ELITE 1TB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 ELITE 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 ELITE 4TB [M.2 PCIe 4.0 x4]", price: "430", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 ELITE w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "105", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 ELITE w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 ELITE w/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "480", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 Force Series Gen4 500GB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "500GB" },
+        { brand: "Corsair", name: "MP600 GS 500GB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "500GB" },
+        { brand: "Corsair", name: "MP600 GS 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 PRO 1TB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 PRO 2TB [M.2 PCIe 4.0 x4]", price: "270", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 PRO LPX 500GB [M.2 PCIe 4.0 x4]", price: "260", Capacity: "500GB" },
+        { brand: "Corsair", name: "MP600 PRO LPX 1TB [M.2 PCIe 4.0 x4]", price: "110", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 PRO LPX 2TB [M.2 PCIe 4.0 x4]", price: "200", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 PRO LPX 4TB [M.2 PCIe 4.0 x4]", price: "435", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 PRO LPX 8TB [M.2 PCIe 4.0 x4]", price: "1020", Capacity: "8TB" },
+        { brand: "Corsair", name: "MP600 PRO NH 1TB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 PRO NH 2TB [M.2 PCIe 4.0 x4]", price: "230", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 PRO NH 4TB [M.2 PCIe 4.0 x4]", price: "430", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 PRO NH 8TB [M.2 PCIe 4.0 x4]", price: "1055", Capacity: "8TB" },
+        { brand: "Corsair", name: "MP600 PRO XT 1TB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP600 PRO XT 2TB [M.2 PCIe 4.0 x4]", price: "215", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP600 PRO XT 4TB [M.2 PCIe 4.0 x4]", price: "430", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP600 PRO XT 8TB [M.2 PCIe 4.0 x4]", price: "1155", Capacity: "8TB" },
+        { brand: "Corsair", name: "MP700 Elite 1TB [M.2 PCIe 5.0 x4]", price: "155", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP700 Elite 2TB [M.2 PCIe 5.0 x4]", price: "265", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP700 Elite w/Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "170", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP700 Elite w/Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "275", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP700 PRO 1TB [M.2 PCIe 5.0 x4]", price: "175", Capacity: "1TB" },
+        { brand: "Corsair", name: "MP700 PRO 2TB [M.2 PCIe 5.0 x4]", price: "290", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP700 PRO 4TB [M.2 PCIe 5.0 x4]", price: "630", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP700 PRO SE 4TB [M.2 PCIe 5.0 x4]", price: "680", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP700 PRO SE with Air Cooler 2TB [M.2 PCIe 5.0 x4]", price: "330", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP700 PRO SE with Air Cooler 4TB [M.2 PCIe 5.0 x4]", price: "660", Capacity: "4TB" },
+        { brand: "Corsair", name: "MP700 PRO w/Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "335", Capacity: "2TB" },
+        { brand: "Corsair", name: "MP700 PRO w/Heatsink 4TB [M.2 PCIe 5.0 x4]", price: "695", Capacity: "4TB" },
+        { brand: "Crucial", name: "CT1000E100SSD8 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Crucial", name: "P3 Plus 500GB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "500GB" },
+        { brand: "Crucial", name: "P310 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "Crucial", name: "P310 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "Crucial", name: "P310 w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "Crucial", name: "P310 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "175", Capacity: "2TB" },
+        { brand: "Crucial", name: "P510 1TB [M.2 PCIe 5.0 x4]", price: "135", Capacity: "1TB" },
+        { brand: "Crucial", name: "P510 W/Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "145", Capacity: "1TB" },
+        { brand: "Crucial", name: "T500 500GB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "500GB" },
+        { brand: "Crucial", name: "T500 1TB [M.2 PCIe 4.0 x4]", price: "105", Capacity: "1TB" },
+        { brand: "Crucial", name: "T500 2TB [M.2 PCIe 4.0 x4]", price: "170", Capacity: "2TB" },
+        { brand: "Crucial", name: "T500 4TB [M.2 PCIe 4.0 x4]", price: "330", Capacity: "4TB" },
+        { brand: "Crucial", name: "T500 W/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "Crucial", name: "T500 W/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "180", Capacity: "2TB" },
+        { brand: "Crucial", name: "T500 W/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "370", Capacity: "4TB" },
+        { brand: "Crucial", name: "T700 1TB [M.2 PCIe 5.0 x4]", price: "195", Capacity: "1TB" },
+        { brand: "Crucial", name: "T700 2TB [M.2 PCIe 5.0 x4]", price: "215", Capacity: "2TB" },
+        { brand: "Crucial", name: "T700 4TB [M.2 PCIe 5.0 x4]", price: "490", Capacity: "4TB" },
+        { brand: "Crucial", name: "T700 W/Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "185", Capacity: "1TB" },
+        { brand: "Crucial", name: "T700 W/Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "230", Capacity: "2TB" },
+        { brand: "Crucial", name: "T700 W/Heatsink 4TB [M.2 PCIe 5.0 x4]", price: "555", Capacity: "4TB" },
+        { brand: "Crucial", name: "T705 1TB [M.2 PCIe 5.0 x4]", price: "175", Capacity: "1TB" },
+        { brand: "Crucial", name: "T705 2TB [M.2 PCIe 5.0 x4]", price: "255", Capacity: "2TB" },
+        { brand: "Crucial", name: "T705 4TB [M.2 PCIe 5.0 x4]", price: "490", Capacity: "4TB" },
+        { brand: "Crucial", name: "T705 W/Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "180", Capacity: "1TB" },
+        { brand: "Crucial", name: "T705 W/Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "280", Capacity: "2TB" },
+        { brand: "Crucial", name: "T705 W/Heatsink 4TB [M.2 PCIe 5.0 x4]", price: "485", Capacity: "4TB" },
+        { brand: "Crucial", name: "T705 W/Heatsink Limited Edition 2TB [M.2 PCIe 5.0 x4]", price: "325", Capacity: "2TB" },
+        { brand: "Crucial", name: "T710 1TB [M.2 PCIe 5.0 x4]", price: "220", Capacity: "1TB" },
+        { brand: "Crucial", name: "T710 2TB [M.2 PCIe 5.0 x4]", price: "305", Capacity: "2TB" },
+        { brand: "Crucial", name: "T710 4TB [M.2 PCIe 5.0 x4]", price: "570", Capacity: "4TB" },
+        { brand: "FanXiang", name: "S660 1TB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "1TB" },
+        { brand: "FanXiang", name: "S660 2TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "2TB" },
+        { brand: "FanXiang", name: "S770 1TB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "1TB" },
+        { brand: "FanXiang", name: "S770 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "FanXiang", name: "S770 4TB [M.2 PCIe 4.0 x4]", price: "260", Capacity: "4TB" },
+        { brand: "FanXiang", name: "S880 1TB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "1TB" },
+        { brand: "FanXiang", name: "S880 2TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "2TB" },
+        { brand: "FanXiang", name: "S880 4TB [M.2 PCIe 4.0 x4]", price: "275", Capacity: "4TB" },
+        { brand: "Gigabyte", name: "4000E 500GB [M.2 PCIe 4.0 x4]", price: "55", Capacity: "500GB" },
+        { brand: "Gigabyte", name: "AORUS 500GB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "500GB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 500GB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "500GB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 1TB [M.2 PCIe 4.0 x4]", price: "200", Capacity: "1TB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 2TB [M.2 PCIe 4.0 x4]", price: "285", Capacity: "2TB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 5000E 500GB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "500GB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 5000E 1TB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "1TB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 7000s 1TB [M.2 PCIe 4.0 x4]", price: "240", Capacity: "1TB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 7300 1TB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "1TB" },
+        { brand: "Gigabyte", name: "AORUS Gen4 7300 2TB [M.2 PCIe 4.0 x4]", price: "220", Capacity: "2TB" },
+        { brand: "Gigabyte", name: "AORUS Gen5 12000 1TB [M.2 PCIe 5.0 x4]", price: "235", Capacity: "1TB" },
+        { brand: "Gigabyte", name: "AORUS Gen5 14000 1TB [M.2 PCIe 5.0 x4]", price: "175", Capacity: "1TB" },
+        { brand: "KIOXIA", name: "EXCERIA w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "1TB" },
+        { brand: "KIOXIA", name: "EXCERIA w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "170", Capacity: "2TB" },
+        { brand: "KIOXIA", name: "EXCERIA w/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "340", Capacity: "4TB" },
+        { brand: "KIOXIA", name: "EXCERIA PLUS G3 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "KIOXIA", name: "EXCERIA PLUS G3 2TB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "2TB" },
+        { brand: "KIOXIA", name: "EXCERIA PRO 1TB [M.2 PCIe 4.0 x4]", price: "110", Capacity: "1TB" },
+        { brand: "KIOXIA", name: "EXCERIA PRO 2TB [M.2 PCIe 4.0 x4]", price: "175", Capacity: "2TB" },
+        { brand: "Kingston", name: "FURY Renegade 500GB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "500GB" },
+        { brand: "Kingston", name: "FURY Renegade 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "Kingston", name: "FURY Renegade 2TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "2TB" },
+        { brand: "Kingston", name: "FURY Renegade 4TB [M.2 PCIe 4.0 x4]", price: "395", Capacity: "4TB" },
+        { brand: "Kingston", name: "FURY Renegade G5 1.024TB [M.2 PCIe 5.0 x4]", price: "185", Capacity: "1.024TB" },
+        { brand: "Kingston", name: "FURY Renegade G5 2.048TB [M.2 PCIe 5.0 x4]", price: "265", Capacity: "2.048TB" },
+        { brand: "Kingston", name: "FURY Renegade G5 4.096TB [M.2 PCIe 5.0 x4]", price: "535", Capacity: "4.096TB" },
+        { brand: "Kingston", name: "Fury Renegade with Heat Sink 500GB [M.2 PCIe 4.0 x4]", price: "105", Capacity: "500GB" },
+        { brand: "Kingston", name: "Fury Renegade with Heat Sink 1TB [M.2 PCIe 4.0 x4]", price: "155", Capacity: "1TB" },
+        { brand: "Kingston", name: "Fury Renegade with Heat Sink 2TB [M.2 PCIe 4.0 x4]", price: "215", Capacity: "2TB" },
+        { brand: "Kingston", name: "Fury Renegade with Heat Sink 4TB [M.2 PCIe 4.0 x4]", price: "445", Capacity: "4TB" },
+        { brand: "Kingston", name: "KC3000 512GB [M.2 PCIe 4.0 x4]", price: "75", Capacity: "512GB" },
+        { brand: "Kingston", name: "KC3000 1.024TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1.024TB" },
+        { brand: "Kingston", name: "KC3000 2.048TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "2.048TB" },
+        { brand: "Kingston", name: "KC3000 4.096TB [M.2 PCIe 4.0 x4]", price: "360", Capacity: "4.096TB" },
+        { brand: "Kingston", name: "NV2 500GB [M.2 PCIe 4.0 x4]", price: "60", Capacity: "500GB" },
+        { brand: "Kingston", name: "NV2 1TB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "1TB" },
+        { brand: "Kingston", name: "NV2 2TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "2TB" },
+        { brand: "Kingston", name: "NV2 4TB [M.2 PCIe 4.0 x4]", price: "305", Capacity: "4TB" },
+        { brand: "Kingston", name: "NV3 1TB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "1TB" },
+        { brand: "Kingston", name: "NV3 4TB [M.2 PCIe 4.0 x4]", price: "255", Capacity: "4TB" },
+        { brand: "Lexar", name: "EQ790 1TB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "1TB" },
+        { brand: "Lexar", name: "EQ790 2TB [M.2 PCIe 4.0 x4]", price: "160", Capacity: "2TB" },
+        { brand: "Lexar", name: "EQ790 4TB [M.2 PCIe 4.0 x4]", price: "265", Capacity: "4TB" },
+        { brand: "Lexar", name: "NM710 500GB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "500GB" },
+        { brand: "Lexar", name: "NM710 1TB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "1TB" },
+        { brand: "Lexar", name: "NM710 2TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "2TB" },
+        { brand: "Lexar", name: "NM790 1TB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "1TB" },
+        { brand: "Lexar", name: "NM790 2TB [M.2 PCIe 4.0 x4]", price: "150", Capacity: "2TB" },
+        { brand: "Lexar", name: "NM790 4TB [M.2 PCIe 4.0 x4]", price: "320", Capacity: "4TB" },
+        { brand: "Lexar", name: "NM790 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "2TB" },
+        { brand: "Lexar", name: "NM790 w/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "325", Capacity: "4TB" },
+        { brand: "Lexar", name: "NM990 1TB [M.2 PCIe 5.0 x4]", price: "185", Capacity: "1TB" },
+        { brand: "Lexar", name: "NM990 2TB [M.2 PCIe 5.0 x4]", price: "295", Capacity: "2TB" },
+        { brand: "Lexar", name: "NM990 4TB [M.2 PCIe 5.0 x4]", price: "505", Capacity: "4TB" },
+        { brand: "Lexar", name: "NQ710 500GB [M.2 PCIe 4.0 x4]", price: "60", Capacity: "500GB" },
+        { brand: "Lexar", name: "NQ710 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "Lexar", name: "NQ710 2TB [M.2 PCIe 4.0 x4]", price: "160", Capacity: "2TB" },
+        { brand: "Lexar", name: "NQ790 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Lexar", name: "NQ790 2TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "2TB" },
+        { brand: "Lexar", name: "Professional NM800PRO 512GB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "512GB" },
+        { brand: "Lexar", name: "Professional NM800PRO w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "220", Capacity: "2TB" },
+        { brand: "Lexar", name: "Professional NM1090 PRO 1TB [M.2 PCIe 5.0 x4]", price: "200", Capacity: "1TB" },
+        { brand: "Lexar", name: "Professional NM1090 PRO 2TB [M.2 PCIe 5.0 x4]", price: "310", Capacity: "2TB" },
+        { brand: "Lexar", name: "Professional NM1090 PRO 4TB [M.2 PCIe 5.0 x4]", price: "600", Capacity: "4TB" },
+        { brand: "Lexar", name: "NM1090 w/ Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "145", Capacity: "1TB" },
+        { brand: "Lexar", name: "NM1090 w/ Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "240", Capacity: "2TB" },
+        { brand: "MSI", name: "SPATIUM M450 500GB [M.2 PCIe 4.0 x4]", price: "65", Capacity: "500GB" },
+        { brand: "MSI", name: "SPATIUM M460 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M461 2TB [M.2 PCIe 4.0 x4]", price: "160", Capacity: "2TB" },
+        { brand: "MSI", name: "SPATIUM M470 1TB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M470 PRO 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M470 PRO 2TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "2TB" },
+        { brand: "MSI", name: "SPATIUM M480 1TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M480 2TB [M.2 PCIe 4.0 x4]", price: "360", Capacity: "2TB" },
+        { brand: "MSI", name: "SPATIUM M480 PLAY 1TB [M.2 PCIe 4.0 x4]", price: "220", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M480 PRO 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "MSI", name: "SPATIUM M480 PRO 2TB [M.2 PCIe 4.0 x4]", price: "180", Capacity: "2TB" },
+        { brand: "Patriot", name: "P400 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "Patriot", name: "P400 Lite 500GB [M.2 PCIe 4.0 x4]", price: "50", Capacity: "500GB" },
+        { brand: "Patriot", name: "P400 Lite 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Patriot", name: "P400 Lite 2TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "2TB" },
+        { brand: "Patriot", name: "Viper Gaming VP4100 1TB [M.2 PCIe 4.0 x4]", price: "280", Capacity: "1TB" },
+        { brand: "Patriot", name: "Viper PV553 2TB [M.2 PCIe 5.0 x4]", price: "555", Capacity: "2TB" },
+        { brand: "Patriot", name: "Viper PV553 4TB [M.2 PCIe 5.0 x4]", price: "930", Capacity: "4TB" },
+        { brand: "Patriot", name: "Viper VP4300 1TB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "1TB" },
+        { brand: "Patriot", name: "Viper VP4300 2TB [M.2 PCIe 4.0 x4]", price: "150", Capacity: "2TB" },
+        { brand: "Patriot", name: "Viper VP4300 Lite 4TB [M.2 PCIe 4.0 x4]", price: "275", Capacity: "4TB" },
+        { brand: "Patriot", name: "Viper VPR400 RGB 512GB [M.2 PCIe 4.0 x4]", price: "185", Capacity: "512GB" },
+        { brand: "Patriot", name: "Viper VPR400 RGB 1TB [M.2 PCIe 4.0 x4]", price: "230", Capacity: "1TB" },
+        { brand: "PNY", name: "CS2140 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "PNY", name: "CS2150 1TB [M.2 PCIe 5.0 x4]", price: "130", Capacity: "1TB" },
+        { brand: "PNY", name: "CS2150 2TB [M.2 PCIe 5.0 x4]", price: "235", Capacity: "2TB" },
+        { brand: "PNY", name: "CS2241 500GB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "500GB" },
+        { brand: "PNY", name: "CS2241 1TB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "1TB" },
+        { brand: "PNY", name: "CS2241 2TB [M.2 PCIe 4.0 x4]", price: "210", Capacity: "2TB" },
+        { brand: "PNY", name: "CS3140 1TB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "1TB" },
+        { brand: "PNY", name: "CS3140 2TB [M.2 PCIe 4.0 x4]", price: "220", Capacity: "2TB" },
+        { brand: "PNY", name: "CS3140 4TB [M.2 PCIe 4.0 x4]", price: "425", Capacity: "4TB" },
+        { brand: "PNY", name: "XLR8 CS3040 500GB [M.2 PCIe 4.0 x4]", price: "155", Capacity: "500GB" },
+        { brand: "PNY", name: "XLR8 CS3040 2TB [M.2 PCIe 4.0 x4]", price: "260", Capacity: "2TB" },
+        { brand: "PNY", name: "XLR8 CS3040 w/Heatsink 500GB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "500GB" },
+        { brand: "PNY", name: "XLR8 CS3040 w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "245", Capacity: "1TB" },
+        { brand: "PNY", name: "XLR8 CS3040 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "335", Capacity: "2TB" },
+        { brand: "PNY", name: "XLR8 CS3140 w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "380", Capacity: "1TB" },
+        { brand: "PNY", name: "XLR8 CS3140 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "295", Capacity: "2TB" },
+        { brand: "Samsung", name: "980 Pro 1TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "1TB" },
+        { brand: "Samsung", name: "980 Pro 2TB [M.2 PCIe 4.0 x4]", price: "235", Capacity: "2TB" },
+        { brand: "Samsung", name: "980 Pro w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "1TB" },
+        { brand: "Samsung", name: "980 Pro w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "330", Capacity: "2TB" },
+        { brand: "Samsung", name: "990 Pro 1TB [M.2 PCIe 4.0 x4]", price: "120", Capacity: "1TB" },
+        { brand: "Samsung", name: "990 Pro 2TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "2TB" },
+        { brand: "Samsung", name: "990 Pro 4TB [M.2 PCIe 4.0 x4]", price: "345", Capacity: "4TB" },
+        { brand: "Samsung", name: "990 Pro w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "1TB" },
+        { brand: "Samsung", name: "990 Pro w/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "365", Capacity: "4TB" },
+        { brand: "Samsung", name: "9100 PRO 1TB [M.2 PCIe 5.0 x4]", price: "180", Capacity: "1TB" },
+        { brand: "Samsung", name: "9100 PRO 2TB [M.2 PCIe 5.0 x4]", price: "280", Capacity: "2TB" },
+        { brand: "Samsung", name: "9100 PRO 4TB [M.2 PCIe 5.0 x4]", price: "505", Capacity: "4TB" },
+        { brand: "Samsung", name: "9100 PRO w/Heatsink 1TB [M.2 PCIe 5.0 x4]", price: "215", Capacity: "1TB" },
+        { brand: "Samsung", name: "9100 PRO w/Heatsink 2TB [M.2 PCIe 5.0 x4]", price: "310", Capacity: "2TB" },
+        { brand: "Samsung", name: "9100 PRO w/Heatsink 4TB [M.2 PCIe 5.0 x4]", price: "540", Capacity: "4TB" },
+        { brand: "SanDisk", name: "Extreme 500GB [M.2 PCIe 4.0 x4]", price: "75", Capacity: "500GB" },
+        { brand: "SanDisk", name: "Extreme 1TB [M.2 PCIe 4.0 x4]", price: "85", Capacity: "1TB" },
+        { brand: "SanDisk", name: "Extreme 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "Seagate", name: "FireCuda 530 500GB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "500GB" },
+        { brand: "Seagate", name: "FireCuda 530 1TB [M.2 PCIe 4.0 x4]", price: "200", Capacity: "1TB" },
+        { brand: "Seagate", name: "FireCuda 530 2TB [M.2 PCIe 4.0 x4]", price: "425", Capacity: "2TB" },
+        { brand: "Seagate", name: "FireCuda 530 4TB [M.2 PCIe 4.0 x4]", price: "795", Capacity: "4TB" },
+        { brand: "Seagate", name: "FireCuda 530 w/Heatsink 500GB [M.2 PCIe 4.0 x4]", price: "115", Capacity: "500GB" },
+        { brand: "Seagate", name: "FireCuda 530 w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "195", Capacity: "1TB" },
+        { brand: "Seagate", name: "FireCuda 530 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "430", Capacity: "2TB" },
+        { brand: "Seagate", name: "FireCuda 540 1TB [M.2 PCIe 5.0 x4]", price: "190", Capacity: "1TB" },
+        { brand: "Seagate", name: "FireCuda 540 2TB [M.2 PCIe 5.0 x4]", price: "320", Capacity: "2TB" },
+        { brand: "Seagate", name: "Game Drive 1TB [M.2 PCIe 4.0 x4]", price: "170", Capacity: "1TB" },
+        { brand: "Seagate", name: "Game Drive 2TB [M.2 PCIe 4.0 x4]", price: "590", Capacity: "2TB" },
+        { brand: "Seagate", name: "IronWolf 525 1TB [M.2 PCIe 4.0 x4]", price: "260", Capacity: "1TB" },
+        { brand: "Seagate", name: "IronWolf 525 2TB [M.2 PCIe 4.0 x4]", price: "595", Capacity: "2TB" },
+        { brand: "Seagate", name: "Lightsaber Collection FireCuda 1TB [M.2 PCIe 4.0 x4]", price: "185", Capacity: "1TB" },
+        { brand: "Seagate", name: "Lightsaber Collection FireCuda 2TB [M.2 PCIe 4.0 x4]", price: "370", Capacity: "2TB" },
+        { brand: "Silicon Power", name: "UD85 500GB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "500GB" },
+        { brand: "Silicon Power", name: "UD85 1TB [M.2 PCIe 4.0 x4]", price: "105", Capacity: "1TB" },
+        { brand: "Silicon Power", name: "UD85 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "Silicon Power", name: "UD90 500GB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "500GB" },
+        { brand: "Silicon Power", name: "UD90 1TB [M.2 PCIe 4.0 x4]", price: "70", Capacity: "1TB" },
+        { brand: "Silicon Power", name: "UD90 2TB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "2TB" },
+        { brand: "Silicon Power", name: "UD90 4TB [M.2 PCIe 4.0 x4]", price: "265", Capacity: "4TB" },
+        { brand: "Silicon Power", name: "US75 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Silicon Power", name: "XS70 1TB [M.2 PCIe 4.0 x4]", price: "95", Capacity: "1TB" },
+        { brand: "Silicon Power", name: "XS70 2TB [M.2 PCIe 4.0 x4]", price: "230", Capacity: "2TB" },
+        { brand: "Silicon Power", name: "XS70 4TB [M.2 PCIe 4.0 x4]", price: "475", Capacity: "4TB" },
+        { brand: "TEAMGROUP", name: "A440 Lite 2TB [M.2 PCIe 4.0 x4]", price: "175", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "Cardea A440 1TB [M.2 PCIe 4.0 x4]", price: "225", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "Cardea A440 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "MP44 1TB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "MP44 2TB [M.2 PCIe 4.0 x4]", price: "165", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "MP44 4TB [M.2 PCIe 4.0 x4]", price: "360", Capacity: "4TB" },
+        { brand: "TEAMGROUP", name: "MP44 8TB [M.2 PCIe 4.0 x4]", price: "1135", Capacity: "8TB" },
+        { brand: "TEAMGROUP", name: "MP44L 500GB [M.2 PCIe 4.0 x4]", price: "65", Capacity: "500GB" },
+        { brand: "TEAMGROUP", name: "MP44L 1TB [M.2 PCIe 4.0 x4]", price: "100", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "MP44L 2TB [M.2 PCIe 4.0 x4]", price: "170", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "MP44Q 1TB [M.2 PCIe 4.0 x4]", price: "105", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "MP44Q 2TB [M.2 PCIe 4.0 x4]", price: "195", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-Create Classic C47 4TB [M.2 PCIe 4.0 x4]", price: "425", Capacity: "4TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE Cardea Z44L 1TB [M.2 PCIe 4.0 x4]", price: "160", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE Cardea Z540 1TB [M.2 PCIe 5.0 x4]", price: "165", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE Cardea Z540 2TB [M.2 PCIe 5.0 x4]", price: "295", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE GC PRO 2TB [M.2 PCIe 5.0 x4]", price: "295", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G50 2TB [M.2 PCIe 4.0 x4]", price: "155", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Aluminum 1TB [M.2 PCIe 4.0 x4]", price: "140", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Aluminum 2TB [M.2 PCIe 4.0 x4]", price: "215", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Aluminum 4TB [M.2 PCIe 4.0 x4]", price: "410", Capacity: "4TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Graphene 1TB [M.2 PCIe 4.0 x4]", price: "135", Capacity: "1TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Graphene 2TB [M.2 PCIe 4.0 x4]", price: "195", Capacity: "2TB" },
+        { brand: "TEAMGROUP", name: "T-FORCE G70 PRO Graphene 4TB [M.2 PCIe 4.0 x4]", price: "360", Capacity: "4TB" },
+        { brand: "TEAMGROUP", name: "Z440 Lite 500GB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "500GB" },
+        { brand: "Western Digital", name: "BLACK SN850 Call of Duty Edition 1TB [M.2 PCIe 4.0 x4]", price: "300", Capacity: "1TB" },
+        { brand: "Western Digital", name: "Black SN750 SE 500GB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "500GB" },
+        { brand: "Western Digital", name: "Black SN770 500GB [M.2 PCIe 4.0 x4]", price: "75", Capacity: "500GB" },
+        { brand: "Western Digital", name: "Black SN770 1TB [M.2 PCIe 4.0 x4]", price: "90", Capacity: "1TB" },
+        { brand: "Western Digital", name: "Black SN770 2TB [M.2 PCIe 4.0 x4]", price: "155", Capacity: "2TB" },
+        { brand: "Western Digital", name: "Black SN850 500GB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "500GB" },
+        { brand: "Western Digital", name: "Black SN850 1TB [M.2 PCIe 4.0 x4]", price: "215", Capacity: "1TB" },
+        { brand: "Western Digital", name: "Black SN850 2TB [M.2 PCIe 4.0 x4]", price: "640", Capacity: "2TB" },
+        { brand: "Western Digital", name: "Black SN850 w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "375", Capacity: "2TB" },
+        { brand: "Western Digital", name: "Blue SN580 500GB [M.2 PCIe 4.0 x4]", price: "65", Capacity: "500GB" },
+        { brand: "Western Digital", name: "Blue SN580 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Western Digital", name: "Blue SN580 2TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "2TB" },
+        { brand: "Western Digital", name: "WD Blue SN5000 500GB [M.2 PCIe 4.0 x4]", price: "55", Capacity: "500GB" },
+        { brand: "Western Digital", name: "WD Blue SN5000 1TB [M.2 PCIe 4.0 x4]", price: "80", Capacity: "1TB" },
+        { brand: "Western Digital", name: "WD Blue SN5000 2TB [M.2 PCIe 4.0 x4]", price: "145", Capacity: "2TB" },
+        { brand: "Western Digital", name: "WD Blue SN5000 4TB [M.2 PCIe 4.0 x4]", price: "280", Capacity: "4TB" },
+        { brand: "Western Digital", name: "WD_BLACK SN7100 1TB [M.2 PCIe 4.0 x4]", price: "125", Capacity: "1TB" },
+        { brand: "Western Digital", name: "WD_BLACK SN7100 2TB [M.2 PCIe 4.0 x4]", price: "190", Capacity: "2TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X 1TB [M.2 PCIe 4.0 x4]", price: "110", Capacity: "1TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X 2TB [M.2 PCIe 4.0 x4]", price: "195", Capacity: "2TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X 4TB [M.2 PCIe 4.0 x4]", price: "325", Capacity: "4TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X 8TB [M.2 PCIe 4.0 x4]", price: "920", Capacity: "8TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "130", Capacity: "1TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X w/Heatsink 2TB [M.2 PCIe 4.0 x4]", price: "205", Capacity: "2TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X w/Heatsink 4TB [M.2 PCIe 4.0 x4]", price: "370", Capacity: "4TB" },
+        { brand: "Western Digital", name: "WD_Black SN850X w/Heatsink 8TB [M.2 PCIe 4.0 x4]", price: "950", Capacity: "8TB" },
+        { brand: "Western Digital", name: "WDS100T1XHE w/Heatsink 1TB [M.2 PCIe 4.0 x4]", price: "340", Capacity: "1TB" } 
       ];
 
       storageSelect.innerHTML = '<option value="">Please Select</option>';
@@ -1047,7 +1350,7 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
     }
 
     function submitBuild() {
-  // Generate timestamp and order reference
+  // Generate order reference
   const timestamp = Math.floor(Date.now() / 1000);
   const orderRef = `PC-${timestamp}`;
   const now = new Date();
@@ -1064,6 +1367,9 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
     };
   };
 
+  const customerName = document.getElementById("name").value;
+  const customerEmail = document.getElementById("email").value;
+
   const components = {
     cpu: getComponentData("cpu"),
     motherboard: getComponentData("motherboard"),
@@ -1075,52 +1381,66 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
     psu: getComponentData("psu")
   };
 
-  // Customer-facing template params
-  const customerTemplateParams = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
+  // Base template parameters
+  const baseParams = {
+    name: customerName, // Regular name for customer email
+    email: customerEmail,
     // Component data
     cpu_name: components.cpu.name,
     motherboard_name: components.motherboard.name,
-    // ... [rest of component fields] ...
+    ram_name: components.ram.name,
+    gpu_name: components.gpu.name,
+    storage_name: components.storage.name,
+    cooler_name: components.cooler.name,
+    case_name: components.case.name,
+    psu_name: components.psu.name,
+    // Prices
+    cpu_price: components.cpu.price,
+    motherboard_price: components.motherboard.price,
+    ram_price: components.ram.price,
+    gpu_price: components.gpu.price,
+    storage_price: components.storage.price,
+    cooler_price: components.cooler.price,
+    case_price: components.case.price,
+    psu_price: components.psu.price,
     // Order metadata
     timestamp: timestamp,
     order_ref: orderRef,
     date: formattedDate,
     time: formattedTime,
-    total_cost: '€' + entries["Total Cost (€)"]
+    total_cost: '€' + entries["Total Cost (€)"],
+    // Additional fields for owner copy
+    customer_name: customerName,
+    customer_email: customerEmail
   };
 
-  // Owner-facing template params (different structure)
-  const ownerTemplateParams = {
-    customer_name: document.getElementById("name").value,
-    customer_email: document.getElementById("email").value,
-    order_ref: orderRef,
-    order_date: formattedDate,
-    order_time: formattedTime,
-    // Component data
-    cpu: components.cpu.name + ' ' + components.cpu.price,
-    motherboard: components.motherboard.name + ' ' + components.motherboard.price,
-    // ... [rest of components] ...
-    total_cost: '€' + entries["Total Cost (€)"]
-  };
-
-  // Send customer email
-  emailjs.send("service_s9zzprs", "template_b289p3h", customerTemplateParams)
+  // Send to customer
+  emailjs.send("service_s9zzprs", "template_b289p3h", baseParams)
     .then(() => {
-      console.log(`Customer email for order ${orderRef} sent`);
-      // Send owner email with DIFFERENT template
-      emailjs.send("service_s9zzprs", "owner_template_id", ownerTemplateParams)
+      console.log("Customer email sent");
+      
+      // Send to owner with modified fields
+      const ownerParams = {
+        ...baseParams,
+        email: "filipmartin612@gmail.com", // Your email
+        name: `Order ${orderRef} from ${customerName}`,
+        // These additional fields will show in owner's copy
+        display_customer_info: true 
+      };
+      
+      emailjs.send("service_s9zzprs", "template_b289p3h", ownerParams)
         .then(() => {
-          console.log(`Owner notification for order ${orderRef} sent`);
+          console.log("Owner copy sent");
           nextStep(4);
-        }, (error) => {
-          console.error(`Owner email error:`, error);
-          alert("❌ Failed to send owner notification");
+        })
+        .catch((error) => {
+          console.error("Owner copy failed (but customer email sent)", error);
+          nextStep(4); // Still proceed to confirmation
         });
-    }, (error) => {
-      console.error(`Customer email error:`, error);
-      alert("❌ Failed to send confirmation email");
+    })
+    .catch((error) => {
+      console.error("Email failed completely", error);
+      alert("❌ Failed to send confirmation. Please check your connection.");
     });
 }
 
