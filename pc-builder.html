@@ -95,7 +95,11 @@
       font-size: 1.2em;
       padding: 20px;
     }
-  </style>
+  
+    .field-error { color: #e11d48; font-size: 0.85rem; display: block; min-height: 1.25em; }
+    .input-invalid { border-color: #e11d48 !important; outline-color: #e11d48 !important; }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; }
+</style>
 </head>
 <body>
   <h1>Custom PC Builder</h1>
@@ -105,10 +109,18 @@
     <div class="step" id="step-1">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" required>
+      <small id="name-error" class="field-error" aria-live="polite"></small>
+
       <label for="email">Email Address</label>
       <input type="email" id="email" name="email" required>
+      <small id="email-error" class="field-error" aria-live="polite"></small>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+353 85 123 4567" required>
+      <small id="phone-error" class="field-error" aria-live="polite"></small>
+
       <button type="button" id="next-step-1">Next</button>
-    </div>
+</div>
 
     <!-- Step 2: Component Selection -->
     <div class="step hidden" id="step-2">
@@ -234,7 +246,7 @@
 
   <script type="text/javascript">
     (function() {
-    emailjs.init({ publicKey: "8G49TBPh4GdWiEW09" });
+    emailjs.init({ publicKey: "m_NEwEpWhZhJ_tdgz" });
   })();
 
   const form = document.getElementById("pc-builder-form");
@@ -491,6 +503,7 @@
         const increasedPrice = Math.round((basePrice * 1.2) / 5) * 5; // 20% increase, rounded to nearest €5
         const option = document.createElement("option");
         option.value = `${opt.name}|${increasedPrice}`;
+        option.setAttribute("data-size", opt.size);
         const parts = option.value.split("|");
 option.textContent = `${parts[0]} (€${parts[1]})`;
         if (!motherboardGroups[opt.brand]) motherboardGroups[opt.brand] = [];
@@ -1276,35 +1289,269 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
 
       // Case Options
       const caseOptions = [
-        { brand: "Fractal Design", name: "Fractal Design Meshify C", price: "108", type: "Mid-Tower" },
-        { brand: "Fractal Design", name: "Fractal Design Define 7", price: "150", type: "Full-Tower" },
-        { brand: "NZXT", name: "NZXT H510", price: "96", type: "Mid-Tower" },
-        { brand: "NZXT", name: "NZXT H7 Flow", price: "180", type: "Mid-Tower" }
+        { brand: "Asus", name: "Asus A23 PLUS — Black — MicroATX Mid Tower", price: "82.9", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus A23 PLUS — White — MicroATX Mid Tower", price: "83.9", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus A21 PLUS — White — MicroATX Mini Tower", price: "95.02", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus A21 PLUS — Black — MicroATX Mini Tower", price: "99.65", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus Prime AP202 — Black — MicroATX Mid Tower", price: "119.45", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus TUF Gaming GT302 ARGB — White — ATX Mid Tower", price: "122.6", type: "Mid-Tower" },
+        { brand: "Asus", name: "Asus Prime AP202 — White — MicroATX Mid Tower", price: "123.17", type: "Mini-Tower" },
+        { brand: "Asus", name: "Asus TUF Gaming GT302 ARGB — Black — ATX Mid Tower", price: "124.9", type: "Mid-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master Elite 301 — Black — MicroATX Mid Tower", price: "57.61", type: "Mini-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master Elite 301 — White — MicroATX Mid Tower", price: "63.7", type: "Mini-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master CMP 320 — Black — MicroATX Mid Tower", price: "64.61", type: "Mini-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master MasterBox 600 — Black — ATX Mid Tower", price: "69.9", type: "Mid-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master MasterBox 600 — White — ATX Mid Tower", price: "69.9", type: "Mid-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master CMP 520 — Black — ATX Mid Tower", price: "90.7", type: "Mid-Tower" },
+        { brand: "Cooler Master", name: "Cooler Master CMP 510 — Black — ATX Mid Tower", price: "105.99", type: "Mid-Tower" },
+        { brand: "Corsair", name: "Corsair FRAME 5000D RS ARGB — Black — ATX Mid Tower", price: "167.9", type: "Mid-Tower" },
+        { brand: "Corsair", name: "Corsair FRAME 5000D RS ARGB — White — ATX Mid Tower", price: "169.9", type: "Mid-Tower" },
+        { brand: "Corsair", name: "Corsair iCUE 5000X RGB QL Edition — White — ATX Mid Tower", price: "199.73", type: "Mid-Tower" },
+        { brand: "Corsair", name: "Corsair iCUE 7000X RGB — White — ATX Full Tower", price: "307.24", type: "Full-Tower" },
+        { brand: "Corsair", name: "Corsair iCUE 7000X RGB — Black — ATX Full Tower", price: "316.44", type: "Full-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte C500 PANORAMIC STEALTH — Black — ATX Mid Tower", price: "95.02", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte C500 PANORAMIC STEALTH — White — ATX Mid Tower", price: "99.89", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte C301 GLASS — White — ATX Mid Tower", price: "101.15", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte C301 GLASS V2 — Black — ATX Mid Tower", price: "101.99", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte C301 GLASS — Black — ATX Mid Tower", price: "121.57", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte AORUS C500 GLASS — Black — ATX Mid Tower", price: "266.98", type: "Mid-Tower" },
+        { brand: "Gigabyte", name: "Gigabyte AORUS C700 — Black — ATX Full Tower", price: "393.54", type: "Full-Tower" },
+        { brand: "Lian Li", name: "Lian Li Vector V100R — Black — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li Vector V100R — White — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li O11 Air Mini — Black — ATX Mid Tower", price: "130.47", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li LANCOOL III — White — ATX Mid Tower", price: "139.9", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li O11 Air Mini — White — ATX Mid Tower", price: "141.72", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li LANCOOL III — Black — ATX Mid Tower", price: "159.9", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li LANCOOL III RGB — Black — ATX Mid Tower", price: "169.9", type: "Mid-Tower" },
+        { brand: "Lian Li", name: "Lian Li LANCOOL III RGB — White — ATX Mid Tower", price: "179.9", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE M100R — Black — MicroATX Mini Tower", price: "59.9", type: "Mini-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE M100A — Black — MicroATX Mid Tower", price: "60.46", type: "Mini-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE 120A AIRFLOW — Black — ATX Mid Tower", price: "64.98", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE M100R — White — MicroATX Mini Tower", price: "66.81", type: "Mini-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE 112R — Black — ATX Mid Tower", price: "72.39", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE 320R AIRFLOW — Black — ATX Mid Tower", price: "72.8", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG FORGE 321R AIRFLOW — Black — ATX Mid Tower", price: "82.43", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG VAMPIRIC 010X — Black — ATX Mid Tower", price: "85", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 110R — Black — ATX Mid Tower", price: "93.9", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG VAMPIRIC 100R — Black — ATX Mid Tower", price: "99.9", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 110R — White — ATX Mid Tower", price: "99.99", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG VELOX 100R — Black — ATX Mid Tower", price: "108.55", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG PANO 100R PZ — Black — ATX Mid Tower", price: "115.87", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 100 — Black — ATX Mid Tower", price: "123.19", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG VELOX 100R — White — ATX Mid Tower", price: "127.99", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MAG VAMPIRIC 300R — Black — ATX Mid Tower", price: "135.87", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 111R — Black — ATX Mid Tower", price: "139.4", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 300R AIRFLOW — Black — ATX Mid Tower", price: "149.21", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MPG GUNGNIR 300R AIRFLOW — White — ATX Mid Tower", price: "156.63", type: "Mid-Tower" },
+        { brand: "MSI", name: "MSI MEG PROSPECT 700R — Black — ATX Mid Tower", price: "345.99", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H5 Flow (2024) — Black — ATX Mid Tower", price: "83.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H5 Flow (2024) — White — ATX Mid Tower", price: "83.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Flow (2024) — White — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H6 Flow — White — ATX Mid Tower", price: "99.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Flow (2024) — Black — ATX Mid Tower", price: "99.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H5 Flow RGB (2024) — White — ATX Mid Tower", price: "100.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H5 Flow RGB (2024) — Black — ATX Mid Tower", price: "104.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H6 Flow — Black — ATX Mid Tower", price: "106.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Elite (2023) — White — ATX Mid Tower", price: "107.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H6 Flow RGB — White — ATX Mid Tower", price: "108.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H6 Flow RGB — Black — ATX Mid Tower", price: "123.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Flow RGB (2024) — Black — ATX Mid Tower", price: "129.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Flow RGB (2024) — White — ATX Mid Tower", price: "130.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow (2025) — White — ATX Mid Tower", price: "150.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow (2025) — Black — ATX Mid Tower", price: "154.9", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Elite — White — ATX Mid Tower", price: "181.7", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow RGB (2025) — Black — ATX Mid Tower", price: "261.58", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow RGB (2025) — White — ATX Mid Tower", price: "266.99", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Elite — Black — ATX Mid Tower", price: "213.35", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H7 Elite (2023) — Black — ATX Mid Tower", price: "217.45", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow RGB+ (2025) — Black — ATX Mid Tower", price: "261.58", type: "Mid-Tower" },
+        { brand: "NZXT", name: "NZXT H9 Flow RGB+ (2025) — White — ATX Mid Tower", price: "266.99", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks XT PRO ULTRA — Black — ATX Mid Tower", price: "84.9", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks XT PRO ULTRA — White — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks XT View — Black — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks XT View — White — ATX Mid Tower", price: "89.9", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks Eclipse G400A — White — ATX Mid Tower", price: "107.9", type: "Mid-Tower" },
+        { brand: "Phanteks", name: "Phanteks Eclipse G400A — Black — ATX Mid Tower", price: "109.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake Versa H16 ARGB — Black — MicroATX Mini Tower", price: "54.9", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake Versa H16 ARGB — White — MicroATX Mini Tower", price: "57.9", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 170 ARGB — White — MicroATX Mini Tower", price: "59.9", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 170 ARGB — Black — MicroATX Mini Tower", price: "62.67", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 270 Plus TG ARGB — Black — ATX Mid Tower", price: "64.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 270 Plus TG ARGB — White — ATX Mid Tower", price: "64.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 270 — White — ATX Mid Tower", price: "69.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 270 — Black — ATX Mid Tower", price: "92.49", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake V150 — Black — MicroATX Mid Tower", price: "98.44", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 380 ARGB — Black — ATX Mid Tower", price: "99.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 380 ARGB — White — ATX Mid Tower", price: "99.9", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake V150 Tempered Glass ARGB Breeze — Black — MicroATX Mid Tower", price: "112.89", type: "Mini-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 380 XL TG ARGB — Black — ATX Mid Tower", price: "117.14", type: "Mid-Tower" },
+        { brand: "Thermaltake", name: "Thermaltake View 380 XL TG ARGB — White — ATX Mid Tower", price: "125.9", type: "Mid-Tower" }
       ];
-      caseSelect.innerHTML = '<option value="">Please Select</option>';
-      const caseGroups = {};
-      caseOptions.forEach(opt => {
-        if (!caseGroups[opt.brand]) caseGroups[opt.brand] = [];
-        caseGroups[opt.brand].push(opt);
-      });
-      Object.keys(caseGroups).sort().forEach(brand => {
-        const optgroup = document.createElement("optgroup");
-        optgroup.label = brand;
-        caseGroups[brand].forEach(opt => {
-          const option = document.createElement("option");
-          option.value = `${opt.name}|${opt.price}`;
-          option.textContent = `${opt.name} (€${opt.price})`;
-          optgroup.appendChild(option);
-        });
-        caseSelect.appendChild(optgroup);
-      });
+      // Map case type -> supported motherboard sizes
+      const CASE_SUPPORT_MAP = {
+        "Full-Tower": ["E-ATX", "ATX", "Micro ATX", "Mini ITX"],
+        "Mid-Tower": ["ATX", "Micro ATX", "Mini ITX"],
+        "Mini-Tower": ["Micro ATX", "Mini ITX"],
+        "Small Form Factor": ["Mini ITX"]
+      };
 
-      // PSU Options
+      function repopulateCaseOptions(moboSize) {
+        caseSelect.innerHTML = '<option value="">Please Select</option>';
+        const caseGroups = {};
+        const addOpt = (opt) => {
+          const option = document.createElement("option");
+          const basePrice = parseFloat(opt.price);
+          const increasedPrice = Math.round((basePrice * 1.2) / 5) * 5; // +20%, round to €5
+          option.value = `${opt.name}|${increasedPrice}`;
+          option.textContent = `${opt.name} (€${increasedPrice})`;
+          option.setAttribute("data-type", opt.type);
+          option.setAttribute("data-supports", (CASE_SUPPORT_MAP[opt.type] || []).join(','));
+          return option;
+        };
+
+        // Filter by motherboard size if provided
+        caseOptions.forEach(opt => {
+          const supports = CASE_SUPPORT_MAP[opt.type] || ["ATX","Micro ATX","Mini ITX"];
+          const ok = !moboSize || supports.includes(moboSize);
+          if (ok) {
+            if (!caseGroups[opt.brand]) caseGroups[opt.brand] = [];
+            caseGroups[opt.brand].push(opt);
+          }
+        });
+
+        Object.keys(caseGroups).sort().forEach(brand => {
+          const optgroup = document.createElement("optgroup");
+          optgroup.label = brand;
+          caseGroups[brand].forEach(opt => optgroup.appendChild(addOpt(opt)));
+          caseSelect.appendChild(optgroup);
+        });
+      }
+
+      // Initial populate with no filter until motherboard is chosen
+      repopulateCaseOptions(null);
+
+      // Re-filter cases when motherboard changes
+      motherboardSelect.addEventListener("change", () => {
+        const sel = motherboardSelect.selectedOptions[0];
+        const moboSize = sel ? sel.getAttribute("data-size") : null;
+        repopulateCaseOptions(moboSize);
+        // If current case selection becomes incompatible, clear it
+        const current = caseSelect.selectedOptions[0];
+        if (current) {
+          const supports = (current.getAttribute("data-supports") || '').split(',');
+          if (moboSize && supports.indexOf(moboSize) === -1) {
+            caseSelect.value = '';
+          }
+        }
+      });
+// PSU Options
       const psuOptions = [
-        { brand: "Corsair", name: "Corsair CX550", price: "90", power: "550W" },
-        { brand: "Corsair", name: "Corsair RM850x", price: "156", power: "850W" },
-        { brand: "EVGA", name: "EVGA SuperNOVA 650 GA", price: "108", power: "650W" },
-        { brand: "EVGA", name: "EVGA SuperNOVA 1000 P6", price: "264", power: "1000W" }
+        { brand: "Asus", name: "Asus TUF Gaming 750G [750W][Black]", price: "160", power: "750W", form: "ATX" },
+    { brand: "Asus", name: "Asus Prime AP-750G [750W][White / Black]", price: "185", power: "750W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG Strix Aura Edition [750W][Black]", price: "225", power: "750W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG LOKI [750W][Black / Silver]", price: "240", power: "750W", form: "SFX" },
+    { brand: "Asus", name: "Asus Prime AP-850G [850W][White / Black]", price: "175", power: "850W", form: "ATX" },
+    { brand: "Asus", name: "Asus TUF Gaming 850G [850W][Black]", price: "180", power: "850W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG THOR P2 Gaming [850W][Black / Silver]", price: "365", power: "850W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG Strix Aura Edition [850W][Black]", price: "285", power: "850W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG LOKI [850W][Black / Silver]", price: "285", power: "850W", form: "SFX" },
+    { brand: "Asus", name: "Asus ROG LOKI [850W][White / Silver]", price: "285", power: "850W", form: "SFX" },
+    { brand: "Asus", name: "Asus TUF Gaming 1000G [1000W][Black]", price: "220", power: "1000W", form: "ATX" },
+    { brand: "Asus", name: "Asus TUF Gaming 1000G [1000W][White]", price: "230", power: "1000W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG Strix [1000W][Black]", price: "275", power: "1000W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG Strix Aura Edition [1000W][Black]", price: "310", power: "1000W", form: "ATX" },
+    { brand: "Asus", name: "Asus TUF Gaming 1200G [1200W][Black]", price: "330", power: "1200W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG STRIX 1200P Gaming [1200W][Black / Silver]", price: "315", power: "1200W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG Thor P3 Gaming [1200W][Black]", price: "600", power: "1200W", form: "ATX" },
+    { brand: "Asus", name: "Asus ROG LOKI [1200W][Black / White]", price: "470", power: "1200W", form: "SFX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [550W][Black]", price: "145", power: "550W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 13 M [550W][Black]", price: "135", power: "550W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [650W][Black]", price: "145", power: "650W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 13 M [650W][Black]", price: "150", power: "650W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [750W][Black]", price: "200", power: "750W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 13 M [750W][Black]", price: "165", power: "750W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Power Zone 2 [750W][Black]", price: "185", power: "750W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Straight Power 12 [750W][Black]", price: "195", power: "750W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Dark Power 13 [750W][Black]", price: "280", power: "750W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [850W][Black]", price: "170", power: "850W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 13 M [850W][Black]", price: "180", power: "850W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Power Zone 2 [850W][Black]", price: "200", power: "850W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Straight Power 12 [850W][Black]", price: "240", power: "850W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Dark Power 13 [850W][Black]", price: "290", power: "850W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [1000W][Black]", price: "245", power: "1000W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Power Zone 2 [1000W][Black]", price: "245", power: "1000W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Straight Power 12 [1000W][Black]", price: "265", power: "1000W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Dark Power 13 [1000W][Black]", price: "315", power: "1000W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Pure Power 12 M [1200W][Black]", price: "245", power: "1200W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Straight Power 12 [1200W][Black]", price: "300", power: "1200W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Dark Power Pro 13 [1300W][Black]", price: "480", power: "1300W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Straight Power 12 [1500W][Black]", price: "535", power: "1500W", form: "ATX" },
+    { brand: "be quiet!", name: "be quiet! Dark Power Pro 13 [1600W][Black]", price: "500", power: "1600W", form: "ATX" },
+    { brand: "Cooler Master", name: "Cooler Master GX III GOLD [750W][Black / Purple]", price: "325", power: "750W", form: "ATX" },
+    { brand: "Cooler Master", name: "Cooler Master V SFX Gold 850 ATX 3.1 [850W][Black]", price: "180", power: "850W", form: "SFX" },
+    { brand: "Cooler Master", name: "Cooler Master MWE Gold V2 ATX3.0 [1050W][Black]", price: "275", power: "1050W", form: "ATX" },
+    { brand: "Cooler Master", name: "Cooler Master V SFX Platinum [1100W][Black]", price: "540", power: "1100W", form: "SFX" },
+    { brand: "Cooler Master", name: "Cooler Master MWE Gold V2 ATX3.0 [1250W][Black]", price: "320", power: "1250W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair SF750 (2024) [750W][Black]", price: "210", power: "750W", form: "SFX" },
+    { brand: "Corsair", name: "Corsair RM850e (2023) [850W][Black]", price: "200", power: "850W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair SF850 (2024) [850W][Black]", price: "245", power: "850W", form: "SFX" },
+    { brand: "Corsair", name: "Corsair RM1000e (2023) [1000W][Black]", price: "210", power: "1000W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair SF1000 (2024) [1000W][Black]", price: "290", power: "1000W", form: "SFX" },
+    { brand: "Corsair", name: "Corsair HX1000i (2023) [1000W][Black]", price: "400", power: "1000W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair HX1200i (2025) [1200W][Black]", price: "300", power: "1200W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair HX1200i [1200W][Black]", price: "320", power: "1200W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair HX1500i (2025) [1500W][Black]", price: "345", power: "1500W", form: "ATX" },
+    { brand: "Corsair", name: "Corsair HX1500i (2023) [1500W][Black]", price: "410", power: "1500W", form: "ATX" },
+    { brand: "Gigabyte", name: "Gigabyte UD-GM PG5 [750W][Black]", price: "130", power: "750W", form: "ATX" },
+    { brand: "Gigabyte", name: "Gigabyte UD850GM PG5 (rev. 2.0) [850W][Black]", price: "130", power: "850W", form: "ATX" },
+    { brand: "Gigabyte", name: "Gigabyte UD-GM PG5 [850W][Black]", price: "130", power: "850W", form: "ATX" },
+    { brand: "Gigabyte", name: "Gigabyte AORUS ELITE P850 [850W][Black]", price: "165", power: "850W", form: "ATX" },
+    { brand: "Gigabyte", name: "Gigabyte UD1000GM PG5 [1000W][Black]", price: "335", power: "1000W", form: "ATX" },
+    { brand: "Lian Li", name: "Lian Li EDGE GOLD [1000W][Black]", price: "285", power: "1000W", form: "ATX" },
+    { brand: "Lian Li", name: "Lian Li EDGE GOLD [1200W][Black]", price: "310", power: "1200W", form: "ATX" },
+    { brand: "MSI", name: "MSI MAG A750GL PCIE5 [750W][Black]", price: "130", power: "750W", form: "ATX" },
+    { brand: "MSI", name: "MSI MAG A850GL PCIE5 [850W][Black]", price: "135", power: "850W", form: "ATX" },
+    { brand: "MSI", name: "MSI MPG A850G PCIE5 [850W][Black]", price: "175", power: "850W", form: "ATX" },
+    { brand: "MSI", name: "MSI MAG A850GL PCIE5 [850W][White]", price: "200", power: "850W", form: "ATX" },
+    { brand: "MSI", name: "MSI A1000G PCIE5 [1000W][Black]", price: "190", power: "1000W", form: "ATX" },
+    { brand: "MSI", name: "MSI MAG A1000GL PCIE5 [1000W][Black]", price: "250", power: "1000W", form: "ATX" },
+    { brand: "MSI", name: "MSI MPG A1000GS PCIE5 [1000W][Black]", price: "275", power: "1000W", form: "ATX" },
+    { brand: "MSI", name: "MSI MPG A1250GS PCIE5 [1250W][Black]", price: "295", power: "1250W", form: "ATX" },
+    { brand: "MSI", name: "MSI MAG A1250GL PCIE5 [1250W][Black]", price: "340", power: "1250W", form: "ATX" },
+    { brand: "MSI", name: "MSI MEG Ai1300P PCIE5 [1300W][Black / Copper]", price: "430", power: "1300W", form: "ATX" },
+    { brand: "MSI", name: "MSI MEG Ai-T PCIE5 [1600W][Black / Gold]", price: "995", power: "1600W", form: "ATX" },
+    { brand: "NZXT", name: "NZXT C1200 [1200W][Black]", price: "200", power: "1200W", form: "ATX" },
+    { brand: "NZXT", name: "NZXT C1200 (2024) [1200W][Black]", price: "230", power: "1200W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic FOCUS GX-750 ATX 3.0 [750W][Black]", price: "300", power: "750W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX GX-750 [750W][Black / Silver]", price: "260", power: "750W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX PX-750 [750W][Black / Silver]", price: "300", power: "750W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic Focus GX V4 ATX 3 (2024) [850W][Black]", price: "250", power: "850W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic FOCUS GX-850 ATX 3.0 [850W][Black]", price: "340", power: "850W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX PX-850 [850W][Black / Silver]", price: "315", power: "850W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX GX-1000 [1000W][Black / Silver]", price: "295", power: "1000W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic Focus GX V4 ATX 3 (2024) [1000W][White]", price: "325", power: "1000W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX PX-1000 [1000W][Black / Silver]", price: "405", power: "1000W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic FOCUS GX-1000 ATX 3.0 [1000W][Black]", price: "420", power: "1000W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX GX-1200 [1200W][Black / Silver]", price: "355", power: "1200W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic VERTEX PX-1200 [1200W][Black / Silver]", price: "385", power: "1200W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic PRIME TX-1300 ATX 3.1 [1300W][Black / Silver]", price: "595", power: "1300W", form: "ATX" },
+    { brand: "SeaSonic", name: "SeaSonic PRIME PX-1600 ATX 3.0 [1600W][Black / Silver]", price: "545", power: "1600W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GT [750W][Beige]", price: "175", power: "750W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower PF3 [750W][Black]", price: "180", power: "750W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF3 TT Premium [750W][Black]", price: "235", power: "750W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower SFX [750W][Black]", price: "290", power: "750W", form: "SFX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GT [850W][Beige]", price: "190", power: "850W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower PF3 [850W][Black]", price: "295", power: "850W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower SFX [850W][Black]", price: "305", power: "850W", form: "SFX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower SFX [1000W][Black]", price: "235", power: "1000W", form: "SFX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower SFX [1000W][Black]", price: "290", power: "1000W", form: "SFX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF A3 - TT Premium Edition [1050W][Black]", price: "215", power: "1050W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF A3 Snow [1050W][White]", price: "225", power: "1050W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower PF3 [1050W][Black]", price: "270", power: "1050W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF3 Snow [1200W][White]", price: "265", power: "1200W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF3 TT Premium [1200W][Black]", price: "260", power: "1200W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower PF3 [1200W][Black]", price: "370", power: "1200W", form: "ATX" },
+    { brand: "Thermaltake", name: "Thermaltake Toughpower GF3 TT Premium [1650W][Black]", price: "430", power: "1650W", form: "ATX" }
       ];
       psuSelect.innerHTML = '<option value="">Please Select</option>';
       const psuGroups = {};
@@ -1319,13 +1566,60 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
           const option = document.createElement("option");
           option.value = `${opt.name}|${opt.price}`;
           option.textContent = `${opt.name} (€${opt.price})`;
+          option.setAttribute("data-power", (opt.power||"").replace(/[^0-9]/g, ""));
           optgroup.appendChild(option);
         });
         psuSelect.appendChild(optgroup);
       });
     }
 
-    function displaySummary() {
+    
+      // PSU guard: estimated power + 200W
+      function getEstimatedPower(){
+        const cpuRaw = document.getElementById("cpu").value;
+        const gpuRaw = document.getElementById("gpu").value;
+        if (!cpuRaw || !gpuRaw) return 0;
+        const c = cpuRaw.split("|");
+        const g = gpuRaw.split("|");
+        const cpuW = parseInt((c[4]||"0").replace("W",""))||0; // CPU watts from option payload
+        const gpuW = parseInt((g[2]||"0").replace("W",""))||0; // GPU watts from option payload
+        return cpuW + gpuW;
+      }
+      function updatePsuAdvice(){
+        const psuSelect = document.getElementById("psu");
+        if (!psuSelect) return;
+        // ensure advice node exists just after psu select
+        let advice = document.getElementById("psu-advice");
+        if (!advice){
+          advice = document.createElement("div");
+          advice.id = "psu-advice";
+          advice.style.marginTop = "6px";
+          advice.style.fontSize = "0.9rem";
+          psuSelect.insertAdjacentElement("afterend", advice);
+        }
+        const est = getEstimatedPower();
+        if (!est || !psuSelect.value){
+          advice.textContent = "";
+          return;
+        }
+        const sel = psuSelect.selectedOptions[0];
+        const psuW = parseInt(sel.getAttribute("data-power") || "0") || 0;
+        const recommended = est + 200;
+        if (psuW < recommended){
+          advice.textContent = `⚠️ Estimated draw ~${est}W. We recommend ≥ ${recommended}W. Selected PSU: ${psuW}W.`;
+          advice.style.color = "#b45309";
+        } else {
+          advice.textContent = `✅ PSU OK. Estimated ~${est}W; Recommended ≥ ${recommended}W; Selected ${psuW}W.`;
+          advice.style.color = "#166534";
+        }
+      }
+      // Bind updates
+      document.getElementById("psu").addEventListener("change", updatePsuAdvice);
+      document.getElementById("cpu").addEventListener("change", updatePsuAdvice);
+      document.getElementById("gpu").addEventListener("change", updatePsuAdvice);
+      // Initial
+      setTimeout(updatePsuAdvice, 0);
+function displaySummary() {
       const summary = document.getElementById("summary");
       let total = 50; // Shipping cost
       let summaryHTML = "<ul>";
@@ -1415,7 +1709,7 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
   };
 
   // Send to customer
-  emailjs.send("service_s9zzprs", "template_b289p3h", baseParams)
+  emailjs.send("service_72ubrq1", "template_qxn7l5c", baseParams)
     .then(() => {
       console.log("Customer email sent");
       
@@ -1428,7 +1722,7 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
         display_customer_info: true 
       };
       
-      emailjs.send("service_s9zzprs", "template_b289p3h", ownerParams)
+      emailjs.send("service_72ubrq1", "template_qxn7l5c", ownerParams)
         .then(() => {
           console.log("Owner copy sent");
           nextStep(4);
@@ -1445,6 +1739,7 @@ option.textContent = `${parts[0]} (€${parts[1]})`;
 }
 
 function resetForm() {
+  try { localStorage.removeItem("pcb_name"); localStorage.removeItem("pcb_email"); localStorage.removeItem("pcb_phone"); } catch(e) {}
   form.reset();
   entries = {};
   nextStep(1);
@@ -1473,12 +1768,84 @@ function resetForm() {
 
     // Initialize event listeners
     document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("next-step-1").addEventListener("click", () => nextStep(2));
+      // replaced by validated handler
       document.getElementById("next-step-2").addEventListener("click", () => nextStep(3));
       document.getElementById("back-step-2").addEventListener("click", () => nextStep(1));
       document.getElementById("back-step-3").addEventListener("click", () => nextStep(2));
       document.getElementById("submit-build").addEventListener("click", submitBuild);
       document.getElementById("reset-form").addEventListener("click", resetForm);
+
+    
+      // Step 1 validation and email capture
+      const nameEl = document.getElementById("name");
+      const emailEl = document.getElementById("email");
+      const phoneEl = document.getElementById("phone");
+      const nextBtn = document.getElementById("next-step-1");
+      const nameErr = document.getElementById("name-error");
+      const emailErr = document.getElementById("email-error");
+      const phoneErr = document.getElementById("phone-error");
+
+      function validateName(v){
+        const s = String(v||"").trim();
+        const letters = s.replace(/[^\p{L}]/gu, "");
+        return letters.length >= 2;
+      }
+      function validateEmail(v){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v||"").trim());
+      }
+      function validatePhone(v){
+        const d = String(v||"").trim().replace(/[\s\-()]/g, "");
+        return /^\+?\d{7,15}$/.test(d);
+      }
+      function setInvalid(el, errEl, msg){ el && el.classList.add("input-invalid"); if (errEl) errEl.textContent = msg||""; }
+      function clearInvalid(el, errEl){ el && el.classList.remove("input-invalid"); if (errEl) errEl.textContent = ""; }
+
+      function validateStep1(show){
+        let ok = true;
+        if (!validateName(nameEl.value)){ ok=false; if (show) setInvalid(nameEl, nameErr, "Please enter your name."); } else clearInvalid(nameEl, nameErr);
+        if (!validateEmail(emailEl.value)){ ok=false; if (show) setInvalid(emailEl, emailErr, "Please enter a valid email."); } else clearInvalid(emailEl, emailErr);
+        if (!validatePhone(phoneEl.value)){ ok=false; if (show) setInvalid(phoneEl, phoneErr, "Please enter a valid phone number (7–15 digits)."); } else clearInvalid(phoneEl, phoneErr);
+        nextBtn.disabled = !ok;
+        return ok;
+      }
+
+      ["input","blur"].forEach(evt => {
+        [nameEl,emailEl,phoneEl].forEach(el => el && el.addEventListener(evt, () => validateStep1(false)));
+      });
+      validateStep1(false);
+
+      function sendStep1Email(){
+        const payload = {
+          user_name: nameEl.value.trim(),
+          user_email: emailEl.value.trim(),
+          user_phone: phoneEl.value.trim(),
+          timestamp: new Date().toISOString(),
+          user_agent: navigator.userAgent || ""
+        };
+        return emailjs.send("service_72ubrq1", "template_q226b6o", payload);
+      }
+
+      nextBtn.addEventListener("click", async () => {
+        const ok = validateStep1(true);
+        if (!ok){
+          if (!validateName(nameEl.value)) nameEl.focus();
+          else if (!validateEmail(emailEl.value)) emailEl.focus();
+          else phoneEl.focus();
+          return;
+        }
+        const prev = nextBtn.textContent;
+        nextBtn.textContent = "Sending…";
+        nextBtn.disabled = true;
+        try {
+          await sendStep1Email();
+        } catch(e){
+          console.warn("Step-1 email failed", e);
+        } finally {
+          nextBtn.textContent = prev;
+          nextBtn.disabled = false;
+          nextStep(2);
+        }
+      });
 
       // Power calculation listeners
       const cpuSelect = document.getElementById("cpu");
@@ -1491,5 +1858,106 @@ function resetForm() {
       updateStepIndicator(1);
     });
   </script>
+
+<script>
+// === Step 2 validator (minimal, non-invasive) ===
+document.addEventListener("DOMContentLoaded", function () {
+  const reqIds = ["cpu","motherboard","ram","gpu","storage","cooler","case","psu"];
+  const next2 = document.getElementById("next-step-2");
+
+  function ensureErrorNode(el){
+    let n = el.nextElementSibling;
+    if (!n || !n.classList || !n.classList.contains("field-error")){
+      n = document.createElement("small");
+      n.className = "field-error";
+      n.setAttribute("aria-live","polite");
+      el.insertAdjacentElement("afterend", n);
+    }
+    return n;
+  }
+
+  function isFilled(id){
+    const el = document.getElementById(id);
+    return el && el.value && el.value !== "Please Select";
+  }
+
+  function validateStep2(show){
+    let ok = true;
+    reqIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const filled = isFilled(id);
+      const err = ensureErrorNode(el);
+      if (!filled){
+        ok = false;
+        if (show){ err.textContent = "Please select a " + (el.name || id) + "."; el.classList.add("input-invalid"); }
+      } else {
+        err.textContent = "";
+        el.classList.remove("input-invalid");
+      }
+    });
+    if (next2) next2.disabled = !ok;
+    return ok;
+  }
+
+  // Live gating as user selects parts
+  reqIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el){
+      el.addEventListener("change", () => validateStep2(false));
+      el.addEventListener("blur", () => validateStep2(false));
+    }
+  });
+
+  // Capture-phase listener to block the existing nextStep(3) click if invalid
+  if (next2){
+    next2.addEventListener("click", function(e){
+      if (!validateStep2(true)){
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        return false;
+      }
+    }, true);
+  }
+
+  // Initial check on load
+  validateStep2(false);
+});
+</script>
+
+<script>
+// === Step 1 localStorage (name/email/phone) ===
+document.addEventListener("DOMContentLoaded", function(){
+  const nameEl = document.getElementById("name");
+  const emailEl = document.getElementById("email");
+  const phoneEl = document.getElementById("phone");
+  if (!nameEl || !emailEl || !phoneEl) return;
+
+  const K_NAME = "pcb_name";
+  const K_EMAIL = "pcb_email";
+  const K_PHONE = "pcb_phone";
+
+  // Restore if present
+  try {
+    if (localStorage.getItem(K_NAME)) nameEl.value = localStorage.getItem(K_NAME);
+    if (localStorage.getItem(K_EMAIL)) emailEl.value = localStorage.getItem(K_EMAIL);
+    if (localStorage.getItem(K_PHONE)) phoneEl.value = localStorage.getItem(K_PHONE);
+  } catch(e) {}
+
+  // Save handler
+  function save(){
+    try {
+      localStorage.setItem(K_NAME, nameEl.value || "");
+      localStorage.setItem(K_EMAIL, emailEl.value || "");
+      localStorage.setItem(K_PHONE, phoneEl.value || "");
+    } catch(e) {}
+  }
+
+  // Wire save on input/change/blur
+  [nameEl, emailEl, phoneEl].forEach(el => {
+    ["input","change","blur"].forEach(evt => el.addEventListener(evt, save));
+  });
+});
+</script>
 </body>
 </html>
